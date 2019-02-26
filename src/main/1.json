@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "name": "test",
+  "startPointLongitude": 1.0,
+  "startPointWidth": 1.0,
+  "endPointLongitude": 2.0,
+  "endPointWidth": 2.0,
+  "status": "test"
+}

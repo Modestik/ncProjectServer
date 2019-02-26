@@ -1,0 +1,18 @@
+tomcat-test:
+    restart: always
+    build: ./
+    container_name: tomcat-1
+    ports:
+        - "8000:8080"
+    links:
+        - db:postgres
+db:
+    restart: always
+    image: postgres
+    container_name: postgres
+    ports:
+        - 5432
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=123
+        - POSTGRES_DB=postgres
