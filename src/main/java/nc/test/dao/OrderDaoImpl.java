@@ -33,16 +33,6 @@ public class OrderDaoImpl implements OrderDao {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-/*    @Autowired
-    public OrderDaoImpl(
-            OrderMapper orderMapper,
-            NamedParameterJdbcTemplate jdbcTemplate
-    ) {
-        this.orderMapper = orderMapper;
-        this.jdbcTemplate = jdbcTemplate;
-    }*/
-
-
     @Override
     public Optional<Order> getById(int id) {
         MapSqlParameterSource params = new MapSqlParameterSource();
