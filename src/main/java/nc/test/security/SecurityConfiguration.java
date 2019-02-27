@@ -17,55 +17,36 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private static String REALM = "MY_TEST_REALM";
-
     @Autowired
     private DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery(  "select email, " +
+                .usersByUsernameQuery(  "select username, " +
                                         "       password, " +
                                                 "true as enabled " +
                                         "from users " +
-                                        "where email=?")
-                .authoritiesByUsernameQuery("select u.email, " +
-                                            "       'ROLE_' || r.name" +
-                                            "  from users u," +
-                                            "       role r" +
-                                            "  where u.id_role = r.id_role and u.email=?")
+                                        "where username=?")
+                .authoritiesByUsernameQuery("select username, " +
+                                            "       'ROLE_' || role" +
+                                            "  from users" +
+                                            "  where username=?")
                 .passwordEncoder(getPasswordEncoder());
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-  /*      http.csrf().disable();
-        http.authorizeRequests()
-               // .antMatchers("/order/**").hasRole("USER")
-                .antMatchers("**secured/**").authenticated()
-                .antMatchers("/auth").permitAll()
+        http.csrf().disable();
+        http.authorizeRequests()//.anyRequest().hasAnyRole("ADMIN", "USER")
+                .antMatchers("/").hasRole("ADMIN")
                 .anyRequest().permitAll()
-                .and()
-                .formLogin().permitAll()
                 .and().logout().permitAll()
-                .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
-*/
-        //  http.csrf().disable();
-        http.authorizeRequests().anyRequest().hasAnyRole("ADMIN", "USER")
-                .and()
-                .httpBasic()
-                .and().logout().permitAll()
-        ;//.realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint());
+                .and().httpBasic();
+
+        ;
     }
-
-/*    @Bean
-    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint() {
-        return new CustomBasicAuthenticationEntryPoint();
-    }*/
-
 
     private PasswordEncoder getPasswordEncoder() {
         return new PasswordEncoder() {
