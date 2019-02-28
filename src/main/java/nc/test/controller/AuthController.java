@@ -31,8 +31,12 @@ public class AuthController {
      */
     @GetMapping("/role")
     public String getRole() {
-        //return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString();
-        return userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
+        //return
+        //System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString());
+        String role = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
+        //SecurityContextHolder.clearContext();
+        return role;
+
     }
 
     @PostMapping
