@@ -1,8 +1,7 @@
 package nc.test.service;
 
-import nc.test.dao.OrderDao;
 import nc.test.dao.UserDao;
-import nc.test.exception.OrderNotFoundException;
+import nc.test.exception.NotFoundException;
 import nc.test.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Users getUserByLogin(String username) {
-        return userDao.getUserByLogin(username).orElseThrow(() -> new OrderNotFoundException(1));
+        return userDao.getUserByLogin(username).orElseThrow(() -> new NotFoundException(username));
+    }
+
+    @Override
+    public void create(Users user) {
+        userDao.insert(user);
     }
 }

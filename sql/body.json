@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "name": "test",
+  "startPointLongitude": 1.0,
+  "startPointWidth": 1.0,
+  "endPointLongitude": 2.0,
+  "endPointWidth": 2.0,
+  "status": "test"
+}
+,
+{
+  "id": 1,
+  "firstName": "ADMIN FIRST NAME",
+  "lastName": "ADMIN LAST NAME",
+  "username": "admin",
+  "password": "admin",
+  "role": "ADMIN"
+}
