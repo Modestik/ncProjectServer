@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -21,16 +22,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled from users where username=?")
+                .usersByUsernameQuery("select username, password, true from users where username=?")
                 .authoritiesByUsernameQuery("select username,'ROLE_' || role from users where username=?")
-                .passwordEncoder(getPasswordEncoder());
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,24 +39,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // /admin
                 .anyRequest().permitAll()
                 .and().httpBasic()
-                .and().logout();//.clearAuthentication(true)
-                //.invalidateHttpSession(true);//.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                .and().logout();
 
         ;
-    }
-
-    private PasswordEncoder getPasswordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence charSequence) {
-
-                return charSequence.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence charSequence, String s) {
-                return s.equals(charSequence);
-            }
-        };
     }
 }

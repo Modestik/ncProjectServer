@@ -1,18 +1,22 @@
 package nc.test.controller;
 
 import lombok.var;
+import nc.test.exception.NotFoundException;
 import nc.test.model.Users;
 import nc.test.security.SecurityCheck;
 import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -25,48 +29,55 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-  /*  test
-    @GetMapping
-    public String sayHi() {
-        //System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-       // System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        // Users user = userService.getUserByLogin( )
-        return "hi";
-    }*/
-
-    /*
-     * Метод возвращающий роль
+    /**
+     * Контроллер возвращающий роль залогинившегося пользователя
+     *
+     * @param request  запрос
+     * @param response ответ
+     * @return role
+     * @throws IOException что бы вывести ошибку
      */
     @GetMapping("/role")
-    public String getRole(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+    public String getRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String basic = request.getHeader("Authorization");
-        String password = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getPassword();
-
-        if (SecurityCheck.checkBasicAuth(basic, password))
-            return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString();
-        else
-        {
-            SecurityContextHolder.clearContext();
+        if (SecurityCheck.checkBasicAuth(basic))
+            return userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
+        else {
             response.sendError(401);
             return null;
-            //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
         }
-        //String role = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
-        //SecurityContextHolder.clearContext();
-        //return role;
-
     }
 
+    /**
+     * Контроллер создающий пользователя
+     *
+     * @param newUser пользователь которого надо создать
+     */
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@Valid @RequestBody Users request) {
-        userService.create(request);
+    public void createUser(@Valid @RequestBody Users newUser, HttpServletResponse response) {
+        //почти ооп
+        try {
+            userService.getUserByLogin(newUser.getUsername());
+            response.setStatus(406);
+        } catch (NotFoundException e) {
+            userService.create(newUser);
+            response.setStatus(201);
+        }
     }
 
+    //теоритический логаут
+    @RequestMapping(value = {"/clear"})
+    public String clear(HttpServletRequest request,HttpServletResponse response){
+        HttpSession session= request.getSession(false);
+        SecurityContextHolder.clearContext();
+        session= request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+        for(javax.servlet.http.Cookie cookie : request.getCookies()) {
+            cookie.setMaxAge(0);
+        }
 
-    @GetMapping(value = "/{orderId:\\d+}")
-    public Users getUser(@PathVariable int orderId) {
-        return userService.getUserByLogin("admin");
+        return "logout";
     }
-
 }

@@ -1,5 +1,6 @@
 package nc.test.security;
 
+import lombok.Setter;
 import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,12 +10,28 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 
 public class SecurityCheck {
+    /**
+     * Переменная, хранящая ключ BasicAuth, текущего залогинивошегося пользователя
+     */
+    private static String basicAuth = "";
 
-    public static boolean checkBasicAuth(String basic, String password){
-        String user = SecurityContextHolder.getContext().getAuthentication().getName();
-        String notEncoded = user + ":" + password;
-        String encodedAuth = "Basic " + Base64.getEncoder().encodeToString(notEncoded.getBytes(Charset.forName("US-ASCII")));
-
-        return basic.equals(encodedAuth);
+    /**
+     * Метод, проверяющий ключ BasicAuth
+     *
+     * @param basic
+     * @return true, если ключ тот же или новый
+     * false, если ключ отличается
+     */
+    public static boolean checkBasicAuth(String basic) {
+        if (basicAuth.equals("")) {
+            basicAuth = basic;
+            return true;
+        }
+        if (basicAuth.equals(basic))
+            return true;
+        else {
+            basicAuth = "";
+            return false;
+        }
     }
 }
