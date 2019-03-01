@@ -1,5 +1,9 @@
 --тестовые данные
-INSERT INTO users VALUES (DEFAULT,'ADMIN FIRST NAME','ADMIN LAST NAME','admin','admin','ADMIN');
-INSERT INTO users VALUES (DEFAULT,'CUSTOMER FIRST NAME','CUSTOMER LAST NAME','customer','customer','CUSTOMER');
-INSERT INTO users VALUES (DEFAULT,'OPERATOR FIRST NAME','OPERATOR LAST NAME','operator','operator','OPERATOR');
-INSERT INTO users VALUES (DEFAULT,'DRIVER FIRST NAME','DRIVER LAST NAME','driver','driver','DRIVER');
+INSERT INTO users
+VALUES ('admin', 'admin', 'ADMIN');
+INSERT INTO users
+VALUES ('customer', 'customer', 'CUSTOMER');
+INSERT INTO users
+VALUES ('operator', 'operator', 'OPERATOR');
+INSERT INTO users
+VALUES ('driver', 'driver', 'DRIVER');

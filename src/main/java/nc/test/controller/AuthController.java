@@ -1,6 +1,8 @@
 package nc.test.controller;
 
+import lombok.var;
 import nc.test.model.Users;
+import nc.test.security.SecurityCheck;
 import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Base64;
 
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,12 +38,22 @@ public class AuthController {
      * Метод возвращающий роль
      */
     @GetMapping("/role")
-    public String getRole() {
-        //return
-        //System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString());
-        String role = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
+    public String getRole(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
+        String basic = request.getHeader("Authorization");
+        String password = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getPassword();
+
+        if (SecurityCheck.checkBasicAuth(basic, password))
+            return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString();
+        else
+        {
+            SecurityContextHolder.clearContext();
+            response.sendError(401);
+            return null;
+            //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "The token is not valid.");
+        }
+        //String role = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
         //SecurityContextHolder.clearContext();
-        return role;
+        //return role;
 
     }
 

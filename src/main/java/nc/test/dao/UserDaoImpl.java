@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
             "select * from users where username = :username";
 
     private static final String SQL_INSERT =
-            "insert into users (first_name, last_name, username, password, role) values (:first_name, :last_name, :username, :password ,:role)";
+            "insert into users (username, password, role) values (:username, :password ,:role)";
 
 
     @Autowired
@@ -52,8 +52,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void insert(Users user) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("first_name", user.getFirstName());
-        params.addValue("last_name", user.getLastName());
         params.addValue("username", user.getUsername());
         params.addValue("password", user.getPassword());
         params.addValue("role", user.getRole());
