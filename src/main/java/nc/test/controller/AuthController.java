@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -65,10 +67,16 @@ public class AuthController {
         }
     }
 
-    //теоритический логаут
+    /**
+     * Logout
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = {"/clear"})
-    public String clear(HttpServletRequest request,HttpServletResponse response){
-        HttpSession session= request.getSession(false);
+    public String clear(HttpServletRequest request, HttpServletResponse response) {
+       /* HttpSession session= request.getSession(false);
         SecurityContextHolder.clearContext();
         session= request.getSession(false);
         if(session != null) {
@@ -77,7 +85,12 @@ public class AuthController {
         for(javax.servlet.http.Cookie cookie : request.getCookies()) {
             cookie.setMaxAge(0);
         }
-
+        return "logout";*/
+       SecurityCheck.checkBasicAuth("");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
         return "logout";
     }
 }
