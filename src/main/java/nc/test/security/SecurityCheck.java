@@ -23,15 +23,18 @@ public class SecurityCheck {
      * false, если ключ отличается
      */
     public static boolean checkBasicAuth(String basic) {
+        if (basic.equals("")) {
+            basicAuth = "";
+            return false;
+        }
         if (basicAuth.equals("")) {
             basicAuth = basic;
             return true;
         }
-        if (basicAuth.equals(basic))
-            return true;
-        else {
+        if (!basicAuth.equals(basic) || basic.equals("")) {
             basicAuth = "";
             return false;
-        }
+        } else
+            return true;
     }
 }
