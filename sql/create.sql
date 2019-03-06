@@ -25,6 +25,7 @@ create table cars
   color  varchar(50) not null
 );
 
+--drivers
 create table drivers
 (
   username varchar(50) not null
@@ -39,6 +40,7 @@ create table drivers
   driver_real_point varchar(50)
 );
 
+--customers
 create table customers
 (
   username varchar(50) not null
@@ -49,6 +51,18 @@ create table customers
   phone_number varchar(12) not null
 );
 
+--operators
+create table operators
+(
+  username varchar(50) not null
+    constraint operators_pk
+      primary key,
+  first_name varchar(50) not null,
+  last_name varchar(50) not null,
+  phone_number varchar(12) not null
+);
+
+--orders
 create table orders
 (
   id_order    serial           not null
