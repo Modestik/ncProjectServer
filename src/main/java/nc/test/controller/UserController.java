@@ -5,6 +5,7 @@ import nc.test.model.Users;
 import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
+@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     @Autowired
@@ -23,7 +25,7 @@ public class UserController {
      * @param newUser пользователь которого надо создать
      */
     @PostMapping
-    public void createUser(@Valid @RequestBody Users newUser, HttpServletResponse response)  throws IOException {
+    public void createUser(@Valid @RequestBody Users newUser, HttpServletResponse response) throws IOException {
         //почти ооп
         try {
             userService.getUserByLogin(newUser.getUsername());
@@ -35,23 +37,15 @@ public class UserController {
         }
     }
 
-/*    @PutMapping(value = "/{carId:\\d+}")
+    @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCar(
-            @Valid @RequestBody Users user
-            @PathVariable int carId
-    ) {
-        carService.updateCar(
-                request.getName(),
-                request.getMarka(),
-                request.getYear(),
-                carId
-        );
+    public void updateCar(@Valid @RequestBody Users user) {
+        userService.update(user);
     }
 
-    @DeleteMapping(value = "/{carId:\\d+}")
-    public void deleteProfile(@PathVariable int carId) {
-        userService.delete(carId);
-    }*/
+    @DeleteMapping()
+    public void deleteProfile(@Valid @RequestBody Users user) {
+        userService.deleteUserByLogin(user.getUsername());
+    }
 
 }

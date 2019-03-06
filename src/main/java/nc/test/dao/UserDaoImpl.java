@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
             "insert into users (username, password, role) values (:username, :password ,:role)";
 
     private static final String SQL_UPDATE =
-            "update users set password = :password, role = :role where username = :username";
+            "update users set password = :password where username = :username";
 
     private static final String SQL_DELETE =
             "delete from users where username = :username";
