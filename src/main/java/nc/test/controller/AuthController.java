@@ -8,16 +8,19 @@ import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -50,22 +53,6 @@ public class AuthController {
         }
     }
 
-    /**
-     * Контроллер создающий пользователя
-     *
-     * @param newUser пользователь которого надо создать
-     */
-    @PostMapping
-    public void createUser(@Valid @RequestBody Users newUser, HttpServletResponse response) {
-        //почти ооп
-        try {
-            userService.getUserByLogin(newUser.getUsername());
-            response.setStatus(406);
-        } catch (NotFoundException e) {
-            userService.create(newUser);
-            response.setStatus(201);
-        }
-    }
 
     /**
      * Logout
@@ -86,7 +73,7 @@ public class AuthController {
             cookie.setMaxAge(0);
         }
         return "logout";*/
-       SecurityCheck.checkBasicAuth("");
+        SecurityCheck.checkBasicAuth("");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);

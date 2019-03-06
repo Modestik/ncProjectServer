@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface UserDao {
     Optional<Users> getUserByLogin(String username);
     void insert(Users user);
+    void update(Users user);
+    void deleteUserByLogin(String username);
 }

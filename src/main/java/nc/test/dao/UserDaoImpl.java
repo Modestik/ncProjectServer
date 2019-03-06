@@ -20,6 +20,12 @@ public class UserDaoImpl implements UserDao {
     private static final String SQL_INSERT =
             "insert into users (username, password, role) values (:username, :password ,:role)";
 
+    private static final String SQL_UPDATE =
+            "update users set password = :password, role = :role where username = :username";
+
+    private static final String SQL_DELETE =
+            "delete from users where username = :username";
+
 
     @Autowired
     private UserMapper userMapper;
@@ -54,6 +60,22 @@ public class UserDaoImpl implements UserDao {
         params.addValue("password", new BCryptPasswordEncoder().encode(user.getPassword()));
         params.addValue("role", user.getRole());
         jdbcTemplate.update(SQL_INSERT, params);
+    }
+
+    @Override
+    public void update(Users user) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", user.getUsername());
+        params.addValue("password", new BCryptPasswordEncoder().encode(user.getPassword()));
+        params.addValue("role", user.getRole());
+        jdbcTemplate.update(SQL_UPDATE, params);
+    }
+
+    @Override
+    public void deleteUserByLogin(String username) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", username);
+        jdbcTemplate.update(SQL_DELETE, params);
     }
 
 
