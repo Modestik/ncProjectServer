@@ -1,5 +1,6 @@
 --users
 -- auto-generated definition
+drop table if exists users;
 create table users
 (
   username varchar(50)  not null
@@ -16,6 +17,7 @@ create unique index users_username_uindex
   on users (username);
 
 --cars
+drop table if exists cars;
 create table cars
 (
   number varchar(10) not null
@@ -26,6 +28,7 @@ create table cars
 );
 
 --drivers
+drop table if exists drivers;
 create table drivers
 (
   username varchar(50) not null
@@ -41,6 +44,7 @@ create table drivers
 );
 
 --customers
+drop table if exists customers;
 create table customers
 (
   username varchar(50) not null
@@ -52,6 +56,7 @@ create table customers
 );
 
 --operators
+drop table if exists operators;
 create table operators
 (
   username varchar(50) not null
@@ -63,6 +68,7 @@ create table operators
 );
 
 --orders
+drop table if exists orders;
 create table orders
 (
   id_order    serial           not null
@@ -72,8 +78,8 @@ create table orders
   point_to    varchar(50)      not null,
   cost        double precision not null,
   description varchar(200),
-  start_time  time             not null,
-  end_time    time,
+  start_time  timestamp            not null,
+  end_time    timestamp ,
   status      varchar(50),
   driver      varchar(50)
     constraint orders_drivers_username_fk
