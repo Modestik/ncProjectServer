@@ -1,7 +1,7 @@
 package nc.test.dao;
 
+import nc.test.dao.mapper.UserMapper;
 import nc.test.model.Users;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

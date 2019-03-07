@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface OrderService {
 
-    public List<Orders> selectAllOrders();
+    List<Orders> selectAllOrders();
 }

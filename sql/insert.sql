@@ -8,8 +8,16 @@ VALUES ('operator', '$2a$12$5ZvE6t13B4zJFQowhoJbl.YOJAV/wyOOH.OTFRaaIn9QhFdJJ6qc
 INSERT INTO users
 VALUES ('driver', '$2a$10$IHap8P0ATY3eXl7M6UFBtuHJni0m4Ws4Oq41ecBkOca8ZJUFpf7L2', 'DRIVER');
 INSERT INTO customers (username, first_name, last_name, phone_number)
-VALUES ('customer','customer','customer','89204400232');
+VALUES ('customer', 'customer', 'customer', '89204400232');
 INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)
-VALUES ('customer','пл. Ленина 1, кв ','пл. Ленина  2, кв 2',11.01,'2019-3-19 15:13',null,'open',null,'my number 555-111-111');
+VALUES ('customer', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-19 15:13', null, 'open', null,
+        'my number 555-111-111');
 INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)
-VALUES ('customer','пл. Ленина 1, кв ','пл. Ленина  2, кв 2',11.01,'2019-3-21 15:13',null,'open',null,null);
+VALUES ('customer', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-21 15:13', null, 'open', null, null);
+
+
+INSERT INTO cars
+VALUES ('d777ri36ru', 'lada', 'red');
+
+INSERT INTO drivers
+VALUES ('driver', 'dri', 'ver', '777777', 'd777ri36ru', 'test');

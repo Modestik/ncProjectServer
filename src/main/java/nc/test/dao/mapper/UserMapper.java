@@ -1,4 +1,4 @@
-package nc.test.dao;
+package nc.test.dao.mapper;
 
 import nc.test.model.Users;
 import org.springframework.jdbc.core.RowMapper;
