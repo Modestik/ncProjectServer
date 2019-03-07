@@ -19,10 +19,10 @@ public class OrdersDao {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<Orders> findAllEmployees() {
-        return jdbcTemplate.query(SELECT_ALL, new EmployeeMapper());
+    public List<Orders> selectAllOrders() {
+        return jdbcTemplate.query(SELECT_ALL, new OrdersMapper());
     }
-    private static final class EmployeeMapper implements RowMapper<Orders> {
+    private static final class OrdersMapper implements RowMapper<Orders> {
         public Orders mapRow(ResultSet rs, int rowNum) throws SQLException {
             Orders o = new Orders();
             o.setCustomer(rs.getString("customer"));
