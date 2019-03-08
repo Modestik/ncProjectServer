@@ -16,7 +16,7 @@ public class DriverMapper implements RowMapper<Driver> {
         driver.setLastName(rs.getString("last_name"));
         driver.setPhone(rs.getString("phone_number"));
         driver.setCarNumber(rs.getString("car_number"));
-        driver.setRealPoint(rs.getString("driver_real_poin"));
+        driver.setRealPoint(rs.getString("driver_real_point"));
         return driver;
     }
 }

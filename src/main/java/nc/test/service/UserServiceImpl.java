@@ -1,7 +1,9 @@
 package nc.test.service;
 
+import nc.test.dao.DriverDao;
 import nc.test.dao.UserDao;
 import nc.test.exception.NotFoundException;
+import nc.test.model.Driver;
 import nc.test.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private DriverDao driverDao;
 
     @Override
     public Users getUserByLogin(String username) {
@@ -23,6 +28,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void createDriver(Driver driver) {
+        driverDao.insert(driver);
+    }
+
+    @Override
     public void update(Users user) {
         userDao.update(user);
     }
@@ -30,5 +40,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUserByLogin(String username) {
         userDao.deleteUserByLogin(username);
+    }
+
+    @Override
+    public boolean loginIsEmpty (String username) {
+        return userDao.loginIsEmpty(username);
     }
 }

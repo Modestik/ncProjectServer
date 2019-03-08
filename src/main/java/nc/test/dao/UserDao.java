@@ -9,4 +9,5 @@ public interface UserDao {
     void insert(Users user);
     void update(Users user);
     void deleteUserByLogin(String username);
+    boolean loginIsEmpty (String username);
 }

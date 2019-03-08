@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DriverDao {
     List<Driver> getAllDrivers();
+    void insert(Driver driver);
 }

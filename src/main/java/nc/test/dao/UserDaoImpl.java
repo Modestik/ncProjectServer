@@ -4,11 +4,13 @@ import nc.test.dao.mapper.UserMapper;
 import nc.test.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
@@ -25,6 +27,9 @@ public class UserDaoImpl implements UserDao {
 
     private static final String SQL_DELETE =
             "delete from users where username = :username";
+
+    private static final String SQL_COUNT =
+            "select count(username) from users where username = :username";
 
 
     @Autowired
@@ -78,5 +83,21 @@ public class UserDaoImpl implements UserDao {
         jdbcTemplate.update(SQL_DELETE, params);
     }
 
+    /**
+     * Проверяет если такой логин в системе
+     * @param username
+     * @return true, если нет
+     */
+    @Override
+    public boolean loginIsEmpty(String username) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", username);
+        String count = (String) jdbcTemplate.queryForObject(SQL_COUNT, params, String.class);
+        if (count.equals("0")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
