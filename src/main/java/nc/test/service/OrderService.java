@@ -7,4 +7,5 @@ import java.util.List;
 public interface OrderService {
 
     List<Orders> selectAllOrders();
+    void updatwOrders(Orders orders);
 }

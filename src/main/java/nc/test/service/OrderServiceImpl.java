@@ -16,4 +16,8 @@ public class OrderServiceImpl implements OrderService{
     public List<Orders> selectAllOrders() {
         return orderDao.selectAllOrders();
     }
+    @Override
+    public void updatwOrders(Orders orders) {
+        orderDao.updateOrders(orders);
+    }
 }
