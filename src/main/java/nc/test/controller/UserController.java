@@ -6,6 +6,7 @@ import nc.test.exception.NotFoundException;
 import nc.test.model.Driver;
 import nc.test.model.Users;
 import nc.test.service.UserService;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +46,7 @@ public class UserController {
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCar(@Valid @RequestBody Users user) {
+    public void updateUser(@Valid @RequestBody Users user) {
         userService.update(user);
     }
 
@@ -84,6 +86,7 @@ public class UserController {
                     driver.setPhone(json.get("phone").toString());
                     userService.createDriver(driver);
                 }
+                //еще будет код с оператором
                 response.setStatus(HttpServletResponse.SC_CREATED); //201
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); //406
@@ -93,4 +96,29 @@ public class UserController {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
+
+
+    @PutMapping("/update")
+    public String update(@Valid @RequestBody String jsonStr, HttpServletResponse response) throws IOException, JSONException {
+        try {
+            //Spring в @RequestBody не воспринимает JSONObject (получает пустое значение) поэтому конвектор через String
+            JSONArray jsonArray = new JSONArray(jsonStr);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = jsonArray.getJSONObject(i);
+                Driver driver = new Driver();
+                driver.setUsername(json.get("username").toString());
+                driver.setFirstName(json.get("firstName").toString());
+                driver.setLastName(json.get("lastName").toString());
+                driver.setPhone(json.get("phone").toString());
+                driver.setCarNumber(json.get("carNumber").toString());
+                userService.updateDriver(driver);
+            }
+
+
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return "";
+    }
+
 }

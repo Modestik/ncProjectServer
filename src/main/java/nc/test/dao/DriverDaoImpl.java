@@ -17,6 +17,9 @@ public class DriverDaoImpl implements DriverDao {
     private static final String SQL_INSERT =
             "insert into drivers (username, first_name, last_name, phone_number) values (:username, :first_name ,:last_name,:phone_number)";
 
+    private static final String SQL_UPDATE =
+            "update drivers set first_name = :first_name,last_name = :last_name,phone_number = :phone_number, car_number = :car_number where username = :username";
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -33,5 +36,16 @@ public class DriverDaoImpl implements DriverDao {
         params.addValue("last_name", driver.getLastName());
         params.addValue("phone_number", driver.getPhone());
         jdbcTemplate.update(SQL_INSERT, params);
+    }
+
+    @Override
+    public void update(Driver driver) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", driver.getUsername());
+        params.addValue("first_name", driver.getFirstName());
+        params.addValue("last_name", driver.getLastName());
+        params.addValue("phone_number", driver.getPhone());
+        params.addValue("car_number", driver.getCarNumber());
+        jdbcTemplate.update(SQL_UPDATE, params);
     }
 }

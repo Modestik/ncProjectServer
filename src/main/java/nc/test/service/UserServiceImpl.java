@@ -33,6 +33,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void updateDriver(Driver driver) {
+        driverDao.update(driver);
+    }
+
+    @Override
     public void update(Users user) {
         userDao.update(user);
     }

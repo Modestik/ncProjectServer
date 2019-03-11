@@ -9,6 +9,7 @@ public interface UserService {
 
     void create(Users user);
     void createDriver(Driver driver);
+    void updateDriver(Driver driver);
 
     void update(Users user);
 
