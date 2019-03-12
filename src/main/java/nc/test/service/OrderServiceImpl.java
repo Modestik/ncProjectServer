@@ -2,13 +2,14 @@ package nc.test.service;
 
 import nc.test.dao.OrdersDao;
 import nc.test.model.Orders;
+import nc.test.service.interfaces.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrdersDao orderDao;

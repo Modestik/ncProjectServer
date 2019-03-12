@@ -1,4 +1,4 @@
-package nc.test.service;
+package nc.test.service.interfaces;
 
 import nc.test.model.Car;
 

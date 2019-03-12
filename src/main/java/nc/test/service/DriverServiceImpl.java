@@ -1,7 +1,8 @@
 package nc.test.service;
 
-import nc.test.dao.DriverDao;
+import nc.test.dao.interfaces.DriverDao;
 import nc.test.model.Driver;
+import nc.test.service.interfaces.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

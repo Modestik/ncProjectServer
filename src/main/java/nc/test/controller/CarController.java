@@ -1,7 +1,7 @@
 package nc.test.controller;
 
 import nc.test.model.Car;
-import nc.test.service.CarService;
+import nc.test.service.interfaces.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

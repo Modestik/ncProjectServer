@@ -1,16 +1,15 @@
 package nc.test.dao;
 
+import nc.test.dao.interfaces.UserDao;
 import nc.test.dao.mapper.UserMapper;
 import nc.test.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
@@ -29,7 +28,7 @@ public class UserDaoImpl implements UserDao {
             "delete from users where username = :username";
 
     private static final String SQL_COUNT =
-            "select count(username) from users where username = :username";
+            "select count(username) from users where username = :username limit 1";
 
 
     @Autowired

@@ -1,13 +1,6 @@
 package nc.test.security;
 
-import lombok.Setter;
-import nc.test.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
-import java.nio.charset.Charset;
-import java.util.Base64;
 
 public class SecurityCheck {
     /**

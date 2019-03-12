@@ -1,23 +1,13 @@
 package nc.test.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.core.io.JsonEOFException;
-import nc.test.exception.NotFoundException;
-import nc.test.model.Driver;
-import nc.test.model.Users;
-import nc.test.service.UserService;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import nc.test.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,24 +16,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**
-     * Контроллер создающий пользователя
-     *
-     * @param newUser пользователь которого надо создать
-     */
-    @PostMapping
-    public void createUser(@Valid @RequestBody Users newUser, HttpServletResponse response) throws IOException {
-        //почти ооп
-        try {
-            userService.getUserByLogin(newUser.getUsername());
-            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); //406
-            response.getWriter().println("Name already taken");
-        } catch (NotFoundException e) {
-            userService.create(newUser);
-            response.setStatus(HttpServletResponse.SC_CREATED); //201
-        }
-    }
-
+/*
+// пока не нужно
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateUser(@Valid @RequestBody Users user) {
@@ -53,72 +27,40 @@ public class UserController {
     @DeleteMapping()
     public void deleteProfile(@Valid @RequestBody Users user) {
         userService.deleteUserByLogin(user.getUsername());
-    }
+    }*/
 
 
     /**
-     * Добавление сотрудника
+     * Контроллер для добавления сотрудника
      *
      * @param jsonStr
-     * @param response
-     * @throws IOException
-     * @throws JSONException
      */
-    @PostMapping("/employee")
-    public void createEmployee(@Valid @RequestBody String jsonStr, HttpServletResponse response) throws IOException, JSONException {
-        //почти ооп
-        try {
-            //Spring в @RequestBody не воспринимает JSONObject (получает пустое значение) поэтому конвектор через String
-            JSONObject json = new JSONObject(jsonStr);
-            //Если пользователь уже есть в системе, выход
-            if (userService.loginIsEmpty(json.get("username").toString())) {
-                Users user = new Users();
-                user.setUsername(json.get("username").toString());
-                user.setPassword(json.get("password").toString());
-                user.setRole(json.get("role").toString());
-                userService.create(user);
-
-                if (user.getRole().equals("DRIVER")) {
-                    Driver driver = new Driver();
-                    driver.setUsername(user.getUsername());
-                    driver.setFirstName(json.get("firstName").toString());
-                    driver.setLastName(json.get("lastName").toString());
-                    driver.setPhone(json.get("phone").toString());
-                    userService.createDriver(driver);
-                }
-                //еще будет код с оператором
-                response.setStatus(HttpServletResponse.SC_CREATED); //201
-            } else {
-                response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); //406
-                response.getWriter().println("Name already taken");
-            }
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
+    @PostMapping()
+    public ResponseEntity createUser(@Valid @RequestBody String jsonStr) {
+        return ResponseEntity.status(userService.createUsers(jsonStr)).build();
     }
 
-
+    /**
+     * Контроллер для update
+     *
+     * @param jsonStr
+     * @return
+     */
     @PutMapping("/update")
-    public String update(@Valid @RequestBody String jsonStr, HttpServletResponse response) throws IOException, JSONException {
-        try {
-            //Spring в @RequestBody не воспринимает JSONObject (получает пустое значение) поэтому конвектор через String
-            JSONArray jsonArray = new JSONArray(jsonStr);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject json = jsonArray.getJSONObject(i);
-                Driver driver = new Driver();
-                driver.setUsername(json.get("username").toString());
-                driver.setFirstName(json.get("firstName").toString());
-                driver.setLastName(json.get("lastName").toString());
-                driver.setPhone(json.get("phone").toString());
-                driver.setCarNumber(json.get("carNumber").toString());
-                userService.updateDriver(driver);
-            }
+    public ResponseEntity update(@Valid @RequestBody String jsonStr) {
+        return userService.updateUsers(jsonStr) ?
+                ResponseEntity.status(HttpStatus.CREATED).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 
-
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        return "";
+    /**
+     * Контроллер возвращающий всех сотрудников системы
+     *
+     * @return
+     */
+    @GetMapping
+    public ResponseEntity<String> getAllEmployees() {
+        String responce = userService.getAllEmployees();
+        return new ResponseEntity(responce, responce == "" ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 
 }
