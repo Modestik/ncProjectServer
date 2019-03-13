@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-public class OrdersController {
+public class OrderController {
     @Autowired
     private OrderServiceImpl orderService;
 
@@ -25,6 +25,7 @@ public class OrdersController {
         List<Orders> ob=orderService.selectAllOrders();
         return ob;
     }
+
     @PostMapping
     public void updateOrders(@Valid @RequestBody Orders orders, HttpServletResponse response) throws IOException {
         try {
@@ -33,5 +34,11 @@ public class OrdersController {
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); //406
         }
+    }
+    @GetMapping
+    @RequestMapping(value = "/customer")
+    public List<Orders> getOrdersByCustomer(@RequestParam("custname")String custname) throws IOException {
+        List<Orders> ob=orderService.selectOrdersByCustomer(custname);
+        return ob;
     }
 }

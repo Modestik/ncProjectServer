@@ -1,12 +1,11 @@
-package nc.test.service.interfaces;
+package nc.test.dao.interfaces;
 
 import nc.test.model.Orders;
 
 import java.util.List;
 
-public interface OrderService {
-
+public interface OrdersDao {
     List<Orders> selectAllOrders();
+    void updateOrders(Orders orders);
     List<Orders> selectOrdersByCustomer(String custname);
-    void updatwOrders(Orders orders);
 }
