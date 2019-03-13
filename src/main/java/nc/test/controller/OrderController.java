@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-public class OrdersController {
+public class OrderController {
     @Autowired
     private OrderServiceImpl orderService;
 

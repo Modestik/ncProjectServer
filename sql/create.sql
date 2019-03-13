@@ -15,18 +15,28 @@ alter table users
 
 create unique index users_username_uindex
   on users (username);
-
---cars
-drop table if exists cars;
-create table cars
+--orders
+drop table if exists orders;
+create table orders
 (
-  number varchar(10) not null
-    constraint cars_pk
+  id_order    serial           not null
+    constraint orders_pk
       primary key,
-  model  varchar(50) not null,
-  color  varchar(50) not null
+  point_from  varchar(50)      not null,
+  point_to    varchar(50)      not null,
+  cost        double precision not null,
+  weight      varchar(50) not null,
+  description varchar(200),
+  start_time  timestamp            not null,
+  end_time    timestamp ,
+  status      varchar(50),
+  driver      varchar(50)
+    constraint orders_drivers_username_fk
+      references drivers,
+  customer    varchar(50)      not null
+    constraint orders_customers_username_fk
+      references customers
 );
-
 --drivers
 drop table if exists drivers;
 create table drivers
@@ -42,6 +52,18 @@ create table drivers
       references cars,
   driver_real_point varchar(50)
 );
+--cars
+drop table if exists cars;
+create table cars
+(
+  number varchar(10) not null
+    constraint cars_pk
+      primary key,
+  model  varchar(50) not null,
+  color  varchar(50) not null
+);
+
+
 
 --customers
 drop table if exists customers;
@@ -67,26 +89,6 @@ create table operators
   phone_number varchar(12) not null
 );
 
---orders
-drop table if exists orders;
-create table orders
-(
-  id_order    serial           not null
-    constraint orders_pk
-      primary key,
-  point_from  varchar(50)      not null,
-  point_to    varchar(50)      not null,
-  cost        double precision not null,
-  description varchar(200),
-  start_time  timestamp            not null,
-  end_time    timestamp ,
-  status      varchar(50),
-  driver      varchar(50)
-    constraint orders_drivers_username_fk
-      references drivers,
-  customer    varchar(50)      not null
-    constraint orders_customers_username_fk
-      references customers
-);
+
 
 
