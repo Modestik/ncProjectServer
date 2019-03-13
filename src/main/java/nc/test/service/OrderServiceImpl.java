@@ -18,6 +18,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.selectAllOrders();
     }
     @Override
+    public List<Orders> selectOrdersByCustomer(String custname)
+    {
+        return orderDao.selectOrdersByCustomer(custname);
+    }
+    @Override
     public void updatwOrders(Orders orders) {
         orderDao.updateOrders(orders);
     }

@@ -17,6 +17,7 @@ public class OrdersDaoImpl implements OrdersDao {
 
 
     private final String SELECT_ALL = "SELECT * from ORDERS";
+    private final String SELECT_BY_CUST = "SELECT * from ORDERS WHERE customer = :customer";
     private static final String SQL_UPDATE =
             "update orders set point_from = :point_from, " +
                     "point_to = :point_to," +
@@ -32,9 +33,18 @@ public class OrdersDaoImpl implements OrdersDao {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
+
+    public List<Orders> selectOrdersByCustomer(String custname)
+    {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("customer",custname);
+        return jdbcTemplate.query(SELECT_BY_CUST,params, new OrdersMapper());
+    }
+
     public List<Orders> selectAllOrders() {
         return jdbcTemplate.query(SELECT_ALL, new OrdersMapper());
     }
+
     private MapSqlParameterSource getParams(Orders order) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("point_from",order.getPoint_from());
