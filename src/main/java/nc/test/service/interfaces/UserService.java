@@ -11,7 +11,7 @@ public interface UserService {
 
     boolean updateUsers(String jsonStr);
 
-    void deleteUserByLogin(String username);
+    boolean deleteUserByLogin(String username);
 
     String getAllEmployees();
 

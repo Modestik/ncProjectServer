@@ -56,15 +56,15 @@ public class UserServiceImpl implements UserService {
                     driver.setFirstName(json.get("firstName").toString());
                     driver.setLastName(json.get("lastName").toString());
                     driver.setPhone(json.get("phone").toString());
-                    driverDao.update(driver);
+                    driverDao.insert(driver);
                 } else {
                     MutantOperCust mutantOperCust = new MutantOperCust();
                     mutantOperCust.setUsername(json.get("username").toString());
                     mutantOperCust.setFirstName(json.get("firstName").toString());
                     mutantOperCust.setLastName(json.get("lastName").toString());
                     mutantOperCust.setPhone(json.get("phone").toString());
-                    mutantOperCust.setPhone(user.getRole().equals("OPERATOR") ? "operators" : "customers");
-                    operCustDao.update(mutantOperCust);
+                    mutantOperCust.setTable(user.getRole().equals("OPERATOR") ? "operators" : "customers");
+                    operCustDao.insert(mutantOperCust);
                 }
                 return HttpStatus.CREATED;
             } else {
@@ -106,6 +106,7 @@ public class UserServiceImpl implements UserService {
                         mutantOperCust.setFirstName(json.get("firstName").toString());
                         mutantOperCust.setLastName(json.get("lastName").toString());
                         mutantOperCust.setPhone(json.get("phone").toString());
+                        mutantOperCust.setTable("operators");
                         operCustDao.update(mutantOperCust);
                         break;
                 }
@@ -117,8 +118,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserByLogin(String username) {
-        userDao.deleteUserByLogin(username);
+    public boolean deleteUserByLogin(String jsonStr) {
+        try {
+            JSONObject json = new JSONObject(jsonStr);
+            String username = json.getString("username");
+            Users user = userDao.getUserByLogin(username).get();
+            userDao.deleteUserByLogin(username);
+            if (user.getRole().equals("DRIVER"))
+                driverDao.deleteUserByLogin(username);
+            if (user.getRole().equals("OPERATOR"))
+                operCustDao.deleteUserByLogin(username);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**

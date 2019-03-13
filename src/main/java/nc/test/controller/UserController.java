@@ -16,19 +16,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-/*
-// пока не нужно
-    @PutMapping()
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@Valid @RequestBody Users user) {
-        userService.update(user);
-    }
-
-    @DeleteMapping()
-    public void deleteProfile(@Valid @RequestBody Users user) {
-        userService.deleteUserByLogin(user.getUsername());
-    }*/
-
 
     /**
      * Контроллер для добавления сотрудника
@@ -63,4 +50,9 @@ public class UserController {
         return new ResponseEntity(responce, responce == "" ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity delete(@Valid @RequestBody String jsonStr) {
+        return userService.deleteUserByLogin(jsonStr) ?
+                ResponseEntity.status(HttpStatus.OK).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
 }

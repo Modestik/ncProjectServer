@@ -8,4 +8,5 @@ public interface OperCustDao {
     List<MutantOperCust> getAllOperators();
     void insert(MutantOperCust mutantOperCust);
     void update(MutantOperCust mutantOperCust);
+    void deleteUserByLogin(String username);
 }

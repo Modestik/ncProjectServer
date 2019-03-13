@@ -27,6 +27,10 @@ public class DriverDaoImpl implements DriverDao {
                     "car_number = :car_number " +
                     "where username = :username";
 
+    private static final String SQL_DELETE =
+            "delete from drivers where username = :username";
+
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -57,4 +61,10 @@ public class DriverDaoImpl implements DriverDao {
         return params;
     }
 
+    @Override
+    public void deleteUserByLogin(String username) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", username);
+        jdbcTemplate.update(SQL_DELETE, params);
+    }
 }

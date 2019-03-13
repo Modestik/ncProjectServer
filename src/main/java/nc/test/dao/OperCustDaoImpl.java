@@ -17,15 +17,10 @@ public class OperCustDaoImpl implements OperCustDao {
     private final String SELECT_ALL =
             "select * from operators";
 
-    private static final String SQL_INSERT =
-            "insert into :table (username, first_name, last_name, phone_number) " +
-                    "values (:username, :first_name ,:last_name,:phone_number)";
+    private final String SQL_DELETE =
+            "delete from operators where username = :username";
 
-    private static final String SQL_UPDATE =
-            "update :table set first_name = :first_name," +
-                    "last_name = :last_name," +
-                    "phone_number = :phone_number " +
-                    "where username = :username";
+
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -38,13 +33,21 @@ public class OperCustDaoImpl implements OperCustDao {
     @Override
     public void insert(MutantOperCust mutantOperCust) {
         MapSqlParameterSource params = operatorParams(mutantOperCust);
-        jdbcTemplate.update(SQL_INSERT, params);
+        String url = "insert into " + mutantOperCust.getTable() +
+                " (username, first_name, last_name, phone_number) " +
+                "values (:username, :first_name ,:last_name,:phone_number)";
+        jdbcTemplate.update(url, params);
     }
 
     @Override
     public void update(MutantOperCust mutantOperCust) {
         MapSqlParameterSource params = operatorParams(mutantOperCust);
-        jdbcTemplate.update(SQL_UPDATE, params);
+        String url = "update " + mutantOperCust.getTable() +
+                " set first_name = :first_name," +
+                "last_name = :last_name," +
+                "phone_number = :phone_number " +
+                "where username = :username";
+        jdbcTemplate.update(url, params);
     }
 
 
@@ -54,7 +57,12 @@ public class OperCustDaoImpl implements OperCustDao {
         params.addValue("first_name", mutantOperCust.getFirstName());
         params.addValue("last_name", mutantOperCust.getLastName());
         params.addValue("phone_number", mutantOperCust.getPhone());
-        params.addValue("table", mutantOperCust.getTable());
         return params;
+    }
+    @Override
+    public void deleteUserByLogin(String username) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", username);
+        jdbcTemplate.update(SQL_DELETE, params);
     }
 }

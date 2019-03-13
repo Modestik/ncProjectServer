@@ -1,9 +1,12 @@
 package nc.test.controller;
 
 import nc.test.security.SecurityCheck;
+import nc.test.service.interfaces.AuthService;
 import nc.test.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +21,7 @@ import java.io.IOException;
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
     /**
      * Контроллер возвращающий роль залогинившегося пользователя
@@ -29,19 +32,14 @@ public class AuthController {
      * @throws IOException что бы вывести ошибку
      */
     @GetMapping("/role")
-    public String getRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String basic = request.getHeader("Authorization");
-        if (SecurityCheck.checkBasicAuth(basic))
-            return userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName()).getRole();
-        else {
-            response.sendError(401);
-            return null;
-        }
+    public ResponseEntity getRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String responce = authService.getRole(request.getHeader("Authorization"));
+        return new ResponseEntity(responce, responce == "" ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 
 
     /**
-     * Logout
+     * Logout (пока так)
      *
      * @param request
      * @param response
