@@ -82,7 +82,7 @@
             <version>5.0.0.RELEASE</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.google.maps</groupId>
             <artifactId>google-maps-services</artifactId>
             <version>0.9.2</version>
@@ -91,6 +91,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <version>1.7.25</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.google.code.geocoder-java</groupId>
+            <artifactId>geocoder-java</artifactId>
+            <version>0.16</version>
         </dependency>
 
 
