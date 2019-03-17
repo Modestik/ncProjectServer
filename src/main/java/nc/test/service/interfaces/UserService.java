@@ -1,5 +1,6 @@
 package nc.test.service.interfaces;
 
+import nc.test.model.MutantOperCust;
 import nc.test.model.Users;
 import org.springframework.http.HttpStatus;
 

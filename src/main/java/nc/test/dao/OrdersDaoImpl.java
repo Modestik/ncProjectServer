@@ -30,6 +30,10 @@ public class OrdersDaoImpl implements OrdersDao {
                     "driver = :driver," +
                     "customer = :customer " +
                     "where id_order = :id_order";
+
+    private static final String SQL_CREATE =
+            "insert into orders (customer, point_from, point_to, cost, weight, start_time, end_time, status, driver, description)"+
+                   "values(:customer,:point_from,:point_to,:cost,:weight,:start_time,:end_time,:status,:driver,:description)";
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -60,6 +64,22 @@ public class OrdersDaoImpl implements OrdersDao {
         params.addValue("id_order", order.getId_order());
         return params;
     }
+    public void createOrders(Orders order)
+    {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("point_from",order.getPoint_from());
+        params.addValue("point_to", order.getPoint_to());
+        params.addValue("cost", order.getCost());
+        params.addValue("weight", order.getWeight());
+        params.addValue("description", order.getDescription());
+        params.addValue("start_time", order.getStart_time());
+        params.addValue("end_time", order.getEnd_time());
+        params.addValue("status", order.getStatus());
+        params.addValue("driver", order.getDriver());
+        params.addValue("customer", order.getCustomer());
+        jdbcTemplate.update(SQL_CREATE,params );
+    }
+
     public void updateOrders(Orders orders) {
         jdbcTemplate.update(SQL_UPDATE, getParams(orders));
     }

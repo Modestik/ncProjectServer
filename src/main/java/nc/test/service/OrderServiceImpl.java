@@ -23,7 +23,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.selectOrdersByCustomer(custname);
     }
     @Override
-    public void updatwOrders(Orders orders) {
+    public void updateOrders(Orders orders) {
         orderDao.updateOrders(orders);
+    }
+    @Override
+    public void createOrders(Orders orders) {
+        orderDao.createOrders(orders);
     }
 }

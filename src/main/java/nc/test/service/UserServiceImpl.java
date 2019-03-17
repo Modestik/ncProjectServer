@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByLogin(username).orElseThrow(() -> new NotFoundException(username));
     }
 
+
     /**
      * Метод создающий сотрудника
      *

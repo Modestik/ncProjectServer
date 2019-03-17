@@ -29,7 +29,17 @@ public class OrderController {
     @PostMapping
     public void updateOrders(@Valid @RequestBody Orders orders, HttpServletResponse response) throws IOException {
         try {
-            orderService.updatwOrders(orders);
+            orderService.updateOrders(orders);
+            response.setStatus(HttpServletResponse.SC_OK); //200
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); //406
+        }
+    }
+    @PostMapping
+    @RequestMapping(value = "/create")
+    public void createOrder(@Valid @RequestBody Orders orders, HttpServletResponse response) throws IOException {
+        try {
+            orderService.createOrders(orders);
             response.setStatus(HttpServletResponse.SC_OK); //200
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE); //406

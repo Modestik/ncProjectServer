@@ -1,5 +1,4 @@
 package nc.test.controller;
-
 import nc.test.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

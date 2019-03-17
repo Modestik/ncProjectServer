@@ -8,5 +8,6 @@ public interface OrderService {
 
     List<Orders> selectAllOrders();
     List<Orders> selectOrdersByCustomer(String custname);
-    void updatwOrders(Orders orders);
+    void updateOrders(Orders orders);
+    void createOrders(Orders orders);
 }
