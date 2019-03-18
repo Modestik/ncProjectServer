@@ -4,10 +4,10 @@ import nc.test.model.Car;
 import nc.test.service.interfaces.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,5 +20,15 @@ public class CarController {
     public List<Car> getAllDrivers() {
         List<Car> carList = carService.getFreeCars();
         return carList;
+    }
+
+    /**
+     * Контроллер для добавления сотрудника
+     *
+     * @param jsonStr
+     */
+    @PostMapping()
+    public ResponseEntity createCar(@Valid @RequestBody String jsonStr) {
+        return ResponseEntity.status(carService.createCar(jsonStr)).build();
     }
 }

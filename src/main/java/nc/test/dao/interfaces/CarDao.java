@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CarDao {
     List<Car> getFreeCars();
+    void insert(Car car);
+    boolean carIsEmpty(String number);
 }
