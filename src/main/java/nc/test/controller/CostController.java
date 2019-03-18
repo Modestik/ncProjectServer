@@ -1,47 +1,70 @@
 package nc.test.controller;
 
-import com.google.code.geocoder.model.GeocoderGeometry;
-import nc.test.service.GeocoderService;
+import nc.test.model.Orders;
+import nc.test.model.Point;
+import nc.test.service.Distance;
+import nc.test.service.JSONReader;
+import nc.test.service.JSONParser;
+import nc.test.service.Price;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController()
 @RequestMapping(value = "/cost", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CostController {
 
     @Autowired
-    GeocoderService geocoderService;
+    JSONParser jsonParser;
 
-    @PostMapping
-    public void test(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            /*GeoApiContext context = new GeoApiContext.Builder()
-                    .apiKey("AIzaSyDPZl5-8ItpQEJ2jPc4luuFrfiyFVx0de4")
-                    .queryRateLimit(1)
-                    .build();
-            GeocodingResult[] results =  GeocodingApi.geocode(context, "1600 Amphitheatre Parkway Mountain View, CA 94043").await();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            //System.out.println(gson.toJson(results[0].addressComponents));
+    @Autowired
+    JSONReader jsonReader;
+
+    @Autowired
+    Distance distance;
+
+    @Autowired
+    Price price;
+
+    private final String apikey = "07aaccb9-d30b-458f-8c06-49710fbacfcd";
+    private final String fpart_url = "https://geocode-maps.yandex.ru/1.x/?apikey="+ apikey +"&format=json&geocode=";
+    private final String tpart_url = "&results=1";
+    //https://geocode-maps.yandex.ru/1.x/?apikey=07aaccb9-d30b-458f-8c06-49710fbacfcd&format=json&geocode=Russia, Voronezh, Taneeva, 10&results=1
+
+    @PostMapping()
+    public ResponseEntity saveData(@Valid @RequestBody String jsonStr) throws JSONException, IOException {
+        Orders orders = jsonParser.request(jsonStr);
+        //JSONObject object = jsonReader.read(jsonStr);
+        //Orders orders = jsonParser.request(object);
+        String url_response1 = fpart_url+orders.getPoint_from()+tpart_url;
+        String url_response2 = fpart_url+orders.getPoint_to()+tpart_url;
+        JSONObject object1 = jsonReader.read(url_response1);
+        JSONObject object2 = jsonReader.read(url_response2);
 
 
-            String lat = gson.toJson(results[0].geometry.location.lat);
-            String lng = gson.toJson(results[0].geometry.location.lng);
-            System.out.println("[" + lat + ", " + lng + "]");*/
+        Point point1 = jsonParser.response(object1);
+        Point point2 = jsonParser.response(object2);
 
-            /*GeocoderGeometry result = geocoderService.locationToCoordinate("1600 Amphitheatre Parkway Mountain View, CA 94043");
-            System.out.println("***** coords: " + result);*/
+        //System.out.println("Point 1: " + point1.getLatitude() + " " + point1.getLongitude());
+        //System.out.println("Point 2: " + point2.getLatitude() + " " + point2.getLongitude());
+        //System.out.println("Weight: " + orders.getWeight());
 
+        double dis = distance.distanceTo(point1, point2);
+        //System.out.println("Distance: " + dis + " km");
+        double pr = price.calculate(dis, Double.parseDouble(orders.getWeight()));
+        //System.out.println("Price: " + pr + " rub");
 
-            response.setStatus(HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            System.out.println("** Exception: " + e);
-        }
+        return new ResponseEntity(pr, HttpStatus.OK);
     }
 
 }
