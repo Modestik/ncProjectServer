@@ -20,6 +20,23 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.io.IOException;
 
+//todo artem
+//использовать ctrl+alt+l - автоформатирование кода
+//@RestController() - удалить '()'
+//@RequestMapping перенести над методом + почитать про produces + добавить method = RequestMethod.POST прям в анноташку
+//почему RequestMethod.POST а не get ? может get более логично..
+//переименовать nc.test.controller.CostController#saveData
+//что за анноташка @Valid ? нужна нам ?
+//@RequestBody String jsonStr - принимать не string .. а объект класса..
+//создать класс (будет содержать параметры которые приходят в метод - address1, address2, weight) - PriceRequest, PriceDto, PriceTo, PriceEntity.. подумай..
+//Orders orders = jsonParser.request(jsonStr) - это будет объект твоего нового класса.. json parser убрать..
+//переименовать поля тут nc.test.model.Orders - id_order to idOrder.. shift+f6 - переименует во всех местах в коде..
+//apikey, fpart_url, tpart_url - сделать статическими.. first-part-url - не лучшее название.. сам url делиться на части.. почитай и назови хорошо..
+//final static поля нужно называть вот так APIKEY, FPART_URL, TPART_URL.. почитай про camel case..
+//String url_response1 = fpart_url + orders.getPoint_from() + tpart_url; url_response1 - не хороший формат.. нужен urlResponse1..
+//но и не очень понятное название переменной.. geocode1, geocode2 лучше..
+//jsonParser, jsonReader - убрать.. добавить resttemplate.. request для координат кидать через него..
+
 @RestController()
 @RequestMapping(value = "/cost", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CostController {
