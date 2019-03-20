@@ -4,12 +4,10 @@ import nc.test.dao.interfaces.OrdersDao;
 import nc.test.dao.mapper.OrdersMapper;
 import nc.test.model.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.List;
 
 @Repository
@@ -51,29 +49,29 @@ public class OrdersDaoImpl implements OrdersDao {
 
     private MapSqlParameterSource getParams(Orders order) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("point_from",order.getPoint_from());
-        params.addValue("point_to", order.getPoint_to());
+        params.addValue("pointFrom",order.getPointFrom());
+        params.addValue("pointTo", order.getPointTo());
         params.addValue("cost", order.getCost());
-        params.addValue("weight", order.getWeight());
+        params.addValue("tariff", order.getWeight());
         params.addValue("description", order.getDescription());
-        params.addValue("start_time", order.getStart_time());
-        params.addValue("end_time", order.getEnd_time());
+        params.addValue("startTime", order.getStartTime());
+        params.addValue("endTime", order.getEndTime());
         params.addValue("status", order.getStatus());
         params.addValue("driver", order.getDriver());
         params.addValue("customer", order.getCustomer());
-        params.addValue("id_order", order.getId_order());
+        params.addValue("idOrder", order.getIdOrder());
         return params;
     }
     public void createOrders(Orders order)
     {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("point_from",order.getPoint_from());
-        params.addValue("point_to", order.getPoint_to());
+        params.addValue("pointFrom",order.getPointFrom());
+        params.addValue("pointTo", order.getPointTo());
         params.addValue("cost", order.getCost());
-        params.addValue("weight", order.getWeight());
+        params.addValue("tariff", order.getWeight());
         params.addValue("description", order.getDescription());
-        params.addValue("start_time", order.getStart_time());
-        params.addValue("end_time", order.getEnd_time());
+        params.addValue("startTime", order.getStartTime());
+        params.addValue("endTime", order.getEndTime());
         params.addValue("status", order.getStatus());
         params.addValue("driver", order.getDriver());
         params.addValue("customer", order.getCustomer());
