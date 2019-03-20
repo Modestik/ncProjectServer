@@ -25,16 +25,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public HttpStatus createCar(String jsonStr) {
+    public HttpStatus createCar(Car car) {
         try {
-            //Spring в @RequestBody не воспринимает JSONObject (получает пустое значение) поэтому конвектор через String
-            JSONObject json = new JSONObject(jsonStr);
             //Если пользователь уже есть в системе, выход
-            if (carDao.carIsEmpty(json.get("number").toString())) {
-                Car car = new Car();
-                car.setNumber(json.getString("number"));
-                car.setModel(json.getString("model"));
-                car.setColor(json.getString("color"));
+            if (carDao.carIsEmpty(car.getNumber())) {
                 carDao.insert(car);
                 return HttpStatus.CREATED;
             } else {

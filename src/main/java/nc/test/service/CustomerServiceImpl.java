@@ -1,7 +1,6 @@
 package nc.test.service;
 
 import nc.test.dao.interfaces.CustomerDao;
-import nc.test.dao.interfaces.OperCustDao;
 import nc.test.model.MutantOperCust;
 import nc.test.service.interfaces.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

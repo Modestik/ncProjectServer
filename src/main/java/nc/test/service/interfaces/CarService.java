@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 public interface CarService {
+
     List<Car> getFreeCars();
-    HttpStatus createCar(String jsonStr);
+
+    HttpStatus createCar(Car car);
 }

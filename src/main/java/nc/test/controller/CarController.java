@@ -22,13 +22,8 @@ public class CarController {
         return carList;
     }
 
-    /**
-     * Контроллер для добавления сотрудника
-     *
-     * @param jsonStr
-     */
     @PostMapping()
-    public ResponseEntity createCar(@Valid @RequestBody String jsonStr) {
-        return ResponseEntity.status(carService.createCar(jsonStr)).build();
+    public ResponseEntity createCar(@RequestBody Car car) {
+        return ResponseEntity.status(carService.createCar(car)).build();
     }
 }

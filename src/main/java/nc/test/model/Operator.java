@@ -5,13 +5,11 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Driver {
+public class Operator {
     private String username;
     private String firstName;
     private String lastName;
     private String phone;
-    private String carNumber;
-    private String realPoint;
 
     public Users toUser() {
         Users users = new Users();
@@ -19,9 +17,7 @@ public class Driver {
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setPhone(phone)
-                .setCarNumber(carNumber)
-                .setRealPoint(realPoint)
-                .setRole("DRIVER");
+                .setRole("OPERATOR");
         return users;
     }
 }

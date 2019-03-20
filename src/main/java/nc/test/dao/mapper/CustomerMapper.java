@@ -1,12 +1,13 @@
 package nc.test.dao.mapper;
 
 import nc.test.model.MutantOperCust;
+import nc.test.model.Operator;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OperCustMapper implements RowMapper<MutantOperCust> {
+public class CustomerMapper implements RowMapper<MutantOperCust> {
     public MutantOperCust mapRow(ResultSet rs, int rowNum) throws SQLException {
         MutantOperCust mutantOperCust = new MutantOperCust();
         mutantOperCust.setUsername(rs.getString("username"));
