@@ -52,7 +52,7 @@ public class OrdersDaoImpl implements OrdersDao {
         params.addValue("pointFrom",order.getPointFrom());
         params.addValue("pointTo", order.getPointTo());
         params.addValue("cost", order.getCost());
-        params.addValue("tariff", order.getWeight());
+        params.addValue("weight", order.getWeight());
         params.addValue("description", order.getDescription());
         params.addValue("startTime", order.getStartTime());
         params.addValue("endTime", order.getEndTime());
@@ -68,7 +68,7 @@ public class OrdersDaoImpl implements OrdersDao {
         params.addValue("pointFrom",order.getPointFrom());
         params.addValue("pointTo", order.getPointTo());
         params.addValue("cost", order.getCost());
-        params.addValue("tariff", order.getWeight());
+        params.addValue("weight", order.getWeight());
         params.addValue("description", order.getDescription());
         params.addValue("startTime", order.getStartTime());
         params.addValue("endTime", order.getEndTime());

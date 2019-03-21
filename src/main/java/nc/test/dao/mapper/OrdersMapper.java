@@ -12,7 +12,7 @@ public class OrdersMapper implements RowMapper<Orders> {
         o.setCustomer(rs.getString("customer"));
         o.setStatus(rs.getString("status"));
         o.setDriver(rs.getString("driver"));
-        o.setWeight(rs.getString("tariff"));
+        o.setWeight(rs.getString("weight"));
         o.setDescription(rs.getString("description"));
         o.setPointFrom(rs.getString("pointFrom"));
         o.setPointTo(rs.getString("pointTo"));
