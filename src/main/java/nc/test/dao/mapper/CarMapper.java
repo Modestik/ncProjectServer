@@ -12,6 +12,7 @@ public class CarMapper implements RowMapper<Car> {
         car.setNumber(rs.getString("number"));
         car.setModel(rs.getString("model"));
         car.setColor(rs.getString("color"));
+        car.setDriver(rs.getString("driver"));
         return car;
     }
 

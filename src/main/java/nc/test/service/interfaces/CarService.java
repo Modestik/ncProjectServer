@@ -9,5 +9,7 @@ public interface CarService {
 
     List<Car> getFreeCars();
 
+    List<Car> getAllCars();
+
     HttpStatus createCar(Car car);
 }

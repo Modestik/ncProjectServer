@@ -2,11 +2,7 @@ package nc.test.service;
 
 import nc.test.dao.interfaces.CarDao;
 import nc.test.model.Car;
-import nc.test.model.Driver;
-import nc.test.model.MutantOperCust;
-import nc.test.model.Users;
 import nc.test.service.interfaces.CarService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +18,11 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<Car> getFreeCars() {
         return carDao.getFreeCars();
+    }
+
+    @Override
+    public List<Car> getAllCars() {
+        return carDao.getAllCars();
     }
 
     @Override
