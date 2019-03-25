@@ -8,6 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+// todo artem
+//PointItem pointItem1 = geocodeService.getCoordinates(priceDto.getAddress1());
+//лучше делать две строки -
+//String address1 = priceDto.getAddress1();
+//PointItem pointItem1 = geocodeService.getCoordinates(address1);
+//idea подсвечивает public.. обрати внимание..
+
 @Slf4j
 @Service
 public class CostService {
