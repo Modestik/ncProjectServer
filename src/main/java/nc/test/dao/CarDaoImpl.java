@@ -16,11 +16,12 @@ public class CarDaoImpl implements CarDao {
     private final String SELECT_FREE_CARS =
             "select  c.number,\n" +
                     "c.model,\n" +
-                    "c.color\n" +
+                    "c.color,\n" +
+                    "d.username as driver\n" +
                     "from cars c\n" +
                     "  left join drivers d on\n" +
                     "    c.number = d.car_number\n" +
-                    "where d.username isnull ;";
+                    "where d.username isnull";
 
     private final String SQL_INSERT =
             "insert into cars (number, model, color) values (:number, :model ,:color)";

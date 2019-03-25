@@ -2,10 +2,8 @@ package nc.test.controller;
 
 import nc.test.security.SecurityCheck;
 import nc.test.service.interfaces.AuthService;
-import nc.test.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -14,16 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-//todo maxim
-//удалить не нужный импорт
-//@RequestMapping перенести над методами; добавить method = RequestMethod.GET; produces = MediaType.APPLICATION_JSON_VALUE - проверить нужно ли ? можно надо выпилить ..
-//nc.test.controller.AuthController#getRole параметры к методу - HttpServletRequest request - можно получать только header, HttpServletResponse response - не используется - выпилить ..
-//throws IOException - не используется - выпилить
 
 @RestController
-@RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/auth")
 public class AuthController {
 
     @Autowired
@@ -32,13 +23,11 @@ public class AuthController {
     /**
      * Контроллер возвращающий роль залогинившегося пользователя
      *
-     * @param request  запрос
-     * @param response ответ
+     * @param request запрос
      * @return role
-     * @throws IOException что бы вывести ошибку
      */
-    @GetMapping("/role")
-    public ResponseEntity getRole(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/role", method = RequestMethod.GET)
+    public ResponseEntity getRole(HttpServletRequest request) {
         String responce = authService.getRole(request.getHeader("Authorization"));
         return new ResponseEntity(responce, responce == "" ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
