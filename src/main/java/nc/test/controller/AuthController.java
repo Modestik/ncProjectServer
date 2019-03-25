@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//todo maxim
+//удалить не нужный импорт
+//@RequestMapping перенести над методами; добавить method = RequestMethod.GET; produces = MediaType.APPLICATION_JSON_VALUE - проверить нужно ли ? можно надо выпилить ..
+//nc.test.controller.AuthController#getRole параметры к методу - HttpServletRequest request - можно получать только header, HttpServletResponse response - не используется - выпилить ..
+//throws IOException - не используется - выпилить
+
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthController {

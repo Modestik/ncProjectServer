@@ -2,6 +2,12 @@ package nc.test.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
+//todo maxim
+//basicAuth.equals("") лучше использовать такое org.springframework.util.StringUtils.isEmpty
+//idea подсвечивает basic.equals("") обрати внимание
+//если не ошибаюсь получается так что мы можем хранить только basic auth для одного пользователя..
+//мы это конечно переделаем.. но если такая логика то можно делать мапу - login and basic auth
+
 public class SecurityCheck {
     /**
      * Переменная, хранящая ключ BasicAuth, текущего залогинивошегося пользователя
