@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-//todo artem
-//почему RequestMethod.POST а не get ? может get более логично..
-
 @RestController
 public class CostController {
 

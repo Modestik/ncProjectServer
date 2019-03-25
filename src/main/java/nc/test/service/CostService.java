@@ -8,13 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-// todo artem
-//PointItem pointItem1 = geocodeService.getCoordinates(priceDto.getAddress1());
-//лучше делать две строки -
-//String address1 = priceDto.getAddress1();
-//PointItem pointItem1 = geocodeService.getCoordinates(address1);
-//idea подсвечивает public.. обрати внимание..
-
 @Slf4j
 @Service
 public class CostService {
@@ -27,8 +20,10 @@ public class CostService {
 
     public double getPrice(PriceDto priceDto) throws IOException {
 
-        PointItem pointItem1 = geocodeService.getCoordinates(priceDto.getAddress1());
-        PointItem pointItem2 = geocodeService.getCoordinates(priceDto.getAddress2());
+        String address1 = priceDto.getAddress1();
+        PointItem pointItem1 = geocodeService.getCoordinates(address1);
+        String address2 = priceDto.getAddress2();
+        PointItem pointItem2 = geocodeService.getCoordinates(address2);
         double dis = distanceService.distanceTo(pointItem1, pointItem2);
         double price = calculate(dis, Double.parseDouble(priceDto.getTariff()));
 
@@ -41,7 +36,7 @@ public class CostService {
         return price;
     }
 
-    public long calculate(Double distance, Double coefficient) {
+    private long calculate(Double distance, Double coefficient) {
         return Math.round((distance * coefficient) * 100) / 100;
     }
 }
