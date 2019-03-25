@@ -12,16 +12,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 //todo artem
-//+PointItem - можно сделать конструктор с двумя полями..
-//+restTemplate в методе nc.test.service.GeocodeService#getCoordinates нужно перенести на уровень класса.. в поле..
-//+следи чтобы код не вылезал за полосу справа..
-//+String geocode - переделать через string builder.. FRAGMENT_APIKEY, FRAGMENT_URL, FRAGMENT_RESULTS - переделать через string builder..
-//+mapper.readValue(response.getBody(), ObjectNode.class).findValues("pos"); - переписать через отельные переменные.. чтоб не было много точек в строке..
-//?jsonNodes - список может содержать более одного элемента.. но ты делаешь ограничение когда кидаешь get запрос в geocoder..
-//добавь комменты про это..
 //+-for (JsonNode node : jsonNodes) - перепиши через stream;
 
 @Slf4j
@@ -44,24 +38,18 @@ public class GeocodeService {
         JsonNode json = stream.iterator().next();
         String coords = json.asText();
         String[] latLon = coords.split(" ");
-        PointItem pointItem = new PointItem(latLon[0], latLon[1]);
-
-        return pointItem;
+        return new PointItem(latLon[0], latLon[1]);
     }
 
     private String getUrl(String address) {
-        String[] url = new String[]{
-                HTTPS,
-                APIKEY,
-                FORMAT,
-                address,
-                RESULTS
-        };
         StringBuilder stringBuilder = new StringBuilder();
-        for (String s : url) {
-            stringBuilder.append(s);
-        }
-        return stringBuilder.toString();
+        return stringBuilder
+                .append(HTTPS)
+                .append(APIKEY)
+                .append(FORMAT)
+                .append(address)
+                .append(RESULTS)
+                .toString();
     }
 
 }

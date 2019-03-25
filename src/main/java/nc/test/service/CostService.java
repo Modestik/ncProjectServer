@@ -25,7 +25,7 @@ public class CostService {
         String address2 = priceDto.getAddress2();
         PointItem pointItem2 = geocodeService.getCoordinates(address2);
         double dis = distanceService.distanceTo(pointItem1, pointItem2);
-        double price = calculate(dis, Double.parseDouble(priceDto.getTariff()));
+        double price = calculate(dis, priceDto.getTariff());
 
         log.debug("Point: {}, {}", pointItem1.getLatitude(), pointItem1.getLongitude());
         log.debug("Point: {}, {}", pointItem2.getLatitude(), pointItem2.getLongitude());
@@ -36,7 +36,7 @@ public class CostService {
         return price;
     }
 
-    private long calculate(Double distance, Double coefficient) {
+    private long calculate(Double distance, int coefficient) {
         return Math.round((distance * coefficient) * 100) / 100;
     }
 }
