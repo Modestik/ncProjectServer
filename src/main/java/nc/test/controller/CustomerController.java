@@ -21,11 +21,11 @@ public class CustomerController {
 
     @GetMapping("/name")  //получить по username
     public MutantOperCust getUser(@RequestParam("name") String name) {
-
         return customerService.getUserByLogin(name);
     }
+
     @PostMapping("/name") //uodate user
     public ResponseEntity updateUser(@Valid @RequestBody MutantOperCust mutantOperCust) {
-        return customerService.updateUser(mutantOperCust)? ResponseEntity.status(HttpStatus.OK).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return customerService.updateUser(mutantOperCust) ? ResponseEntity.status(HttpStatus.OK).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
