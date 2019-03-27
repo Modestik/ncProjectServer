@@ -46,39 +46,30 @@ public class OrdersDaoImpl implements OrdersDao {
         return jdbcTemplate.query(SELECT_ALL, new OrdersMapper());
     }
 
-    private MapSqlParameterSource getParams(Orders order) {
+    private MapSqlParameterSource getParams(Orders order) { //Not idOrder
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("point_from", order.getPointFrom());
         params.addValue("point_to", order.getPointTo());
         params.addValue("cost", order.getCost());
         params.addValue("weight", order.getWeight());
         params.addValue("description", order.getDescription());
-        params.addValue("startTime", order.getStartTime());
-        params.addValue("endTime", order.getEndTime());
+        params.addValue("start_time", order.getStartTime());
+        params.addValue("end_time", order.getEndTime());
         params.addValue("status", order.getStatus());
         params.addValue("driver", order.getDriver());
         params.addValue("customer", order.getCustomer());
-        params.addValue("idOrder", order.getIdOrder());
         return params;
     }
 
     public void createOrders(Orders order) {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("point_From", order.getPointFrom());
-        params.addValue("pointTo", order.getPointTo());
-        params.addValue("cost", order.getCost());
-        params.addValue("weight", order.getWeight());
-        params.addValue("description", order.getDescription());
-        params.addValue("startTime", order.getStartTime());
-        params.addValue("endTime", order.getEndTime());
-        params.addValue("status", order.getStatus());
-        params.addValue("driver", order.getDriver());
-        params.addValue("customer", order.getCustomer());
+        MapSqlParameterSource params =getParams(order);
         jdbcTemplate.update(SQL_CREATE, params);
     }
 
-    public void updateOrders(Orders orders) {
-        jdbcTemplate.update(SQL_UPDATE, getParams(orders));
+    public void updateOrders(Orders order) {
+        MapSqlParameterSource params=getParams(order);
+        params.addValue("id_order", order.getIdOrder());
+        jdbcTemplate.update(SQL_UPDATE,params);
     }
 
 
