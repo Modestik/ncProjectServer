@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class MyBasicAuthenticationProvider implements AuthenticationProvider {
 
-    public CustomAuthenticationProvider() {
+    public MyBasicAuthenticationProvider() {
         super();
     }
 
@@ -38,10 +38,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             String passwordBcrypt = user.getPassword();
 
             if (BCrypt.checkpw(password, passwordBcrypt)) {
-                final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+                List<GrantedAuthority> grantedAuths = new ArrayList<>();
                 grantedAuths.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
-                final UserDetails principal = new User(name, password, grantedAuths);
-                final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
+                UserDetails principal = new User(name, password, grantedAuths);
+                Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, grantedAuths);
                 return auth;
             } else {
                 return null;

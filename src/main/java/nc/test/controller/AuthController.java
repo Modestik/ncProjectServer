@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(value = "/auth")
 public class AuthController {
 
     @Autowired
@@ -22,39 +21,23 @@ public class AuthController {
     /**
      * Контроллер возвращающий роль залогинившегося пользователя
      *
-     * @param request запрос
      * @return role
      */
-    @RequestMapping(value = "/role", method = RequestMethod.GET)
-    public ResponseEntity getRole(HttpServletRequest request) {
-        String responce = authService.getRole(request.getHeader("Authorization"));
+    @RequestMapping(value = "/auth/role", method = RequestMethod.GET)
+    public ResponseEntity getRole() {
+        String responce = authService.getRole();
         return new ResponseEntity(responce, responce == "" ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 
 
     /**
-     * Logout (пока так)
+     * Logout
      *
-     * @param request
-     * @param response
      * @return
      */
-    @RequestMapping(value = {"/clear"})
-    public String clear(HttpServletRequest request, HttpServletResponse response) {
-       /* HttpSession session= request.getSession(false);
+    @RequestMapping(value = "/auth/logout", method = RequestMethod.GET)
+    public String clear() {
         SecurityContextHolder.clearContext();
-        session= request.getSession(false);
-        if(session != null) {
-            session.invalidate();
-        }
-        for(javax.servlet.http.Cookie cookie : request.getCookies()) {
-            cookie.setMaxAge(0);
-        }
-        return "logout";*/
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
         return "logout";
     }
 }

@@ -1,18 +1,16 @@
 package nc.test.config.parent;
 
-import nc.test.security.CustomAuthenticationProvider;
+import nc.test.security.MyBasicAuthenticationProvider;
 import nc.test.security.MyBasicAuthenticationEntryPoint;
+import nc.test.security.MyBasicAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import javax.sql.DataSource;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity //включает поддержку web security и обеспечивает интеграцию со Spring MVC
@@ -31,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    private CustomAuthenticationProvider authProvider;
+    private MyBasicAuthenticationProvider authProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -44,21 +42,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-/*        http.csrf().disable();
+        http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/auth/role").hasAnyRole("CUSTOMER", "ADMIN", "DRIVER", "OPERATOR")
+                .antMatchers("/auth/*").hasAnyRole("CUSTOMER", "ADMIN", "DRIVER", "OPERATOR")
                 .antMatchers("/orders/*").permitAll()
-                .antMatchers("/customer/name").permitAll()//Когда решил забить на security
-                .antMatchers("/auth/").permitAll()
-                // /admin
+                .antMatchers("/customer/name").permitAll()
+                .antMatchers("/car/*").hasAnyRole( "ADMIN")
+                .antMatchers("/user/*").hasAnyRole( "ADMIN")
+                .antMatchers("/price").permitAll()
                 .anyRequest().permitAll()
                 .and().httpBasic()
-                .and().logout();*/
+                    .authenticationEntryPoint(authenticationEntryPoint)
+                .and().logout()
+                    .logoutUrl("/auth/logout")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID");
 
-        http
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint);
+
+        //Фильтр
+        http.addFilterBefore(
+                new MyBasicAuthenticationFilter(), BasicAuthenticationFilter.class);
     }
 }

@@ -4,5 +4,5 @@ package nc.test.service.interfaces;
 //ctrl+alt+l - автоформатирование.. пользуйся..
 
 public interface AuthService {
-    String getRole(String basic );
+    String getRole();
 }
