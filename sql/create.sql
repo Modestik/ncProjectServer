@@ -15,6 +15,46 @@ alter table users
 
 create unique index users_username_uindex
   on users (username);
+
+--cars
+drop table if exists cars;
+create table cars
+(
+  number varchar(10) not null
+    constraint cars_pk
+      primary key,
+  model  varchar(50) not null,
+  color  varchar(50) not null
+);
+
+--drivers
+drop table if exists drivers;
+create table drivers
+(
+  username varchar(50) not null
+    constraint drivers_pk
+      primary key,
+  first_name varchar(50) not null,
+  last_name varchar(50) not null,
+  phone_number varchar(12) not null,
+  car_number varchar(10)
+    constraint drivers_cars_number_fk
+      references cars,
+  driver_real_point varchar(50)
+);
+
+--customers
+drop table if exists customers;
+create table customers
+(
+  username varchar(50) not null
+    constraint customers_pk
+      primary key,
+  first_name varchar(50) not null,
+  last_name varchar(50) not null,
+  phone_number varchar(12) not null
+);
+
 --orders
 drop table if exists orders;
 create table orders
@@ -36,45 +76,6 @@ create table orders
   customer    varchar(50)      not null
     constraint orders_customers_username_fk
       references customers
-);
---drivers
-drop table if exists drivers;
-create table drivers
-(
-  username varchar(50) not null
-    constraint drivers_pk
-      primary key,
-  first_name varchar(50) not null,
-  last_name varchar(50) not null,
-  phone_number varchar(12) not null,
-  car_number varchar(10)
-    constraint drivers_cars_number_fk
-      references cars,
-  driver_real_point varchar(50)
-);
---cars
-drop table if exists cars;
-create table cars
-(
-  number varchar(10) not null
-    constraint cars_pk
-      primary key,
-  model  varchar(50) not null,
-  color  varchar(50) not null
-);
-
-
-
---customers
-drop table if exists customers;
-create table customers
-(
-  username varchar(50) not null
-    constraint customers_pk
-      primary key,
-  first_name varchar(50) not null,
-  last_name varchar(50) not null,
-  phone_number varchar(12) not null
 );
 
 --operators

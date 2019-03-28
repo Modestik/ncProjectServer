@@ -13,19 +13,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrdersDaoImpl orderDao;
+
     @Override
     public List<Orders> selectAllOrders() {
         return orderDao.selectAllOrders();
     }
+
     @Override
-    public List<Orders> selectOrdersByCustomer(String custname)
-    {
+    public List<Orders> selectOrdersByCustomer(String custname) {
         return orderDao.selectOrdersByCustomer(custname);
     }
+
     @Override
     public void updateOrders(Orders orders) {
         orderDao.updateOrders(orders);
     }
+
     @Override
     public void createOrders(Orders orders) {
         orderDao.createOrders(orders);

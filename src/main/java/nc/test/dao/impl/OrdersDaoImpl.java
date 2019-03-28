@@ -30,58 +30,47 @@ public class OrdersDaoImpl implements OrdersDao {
                     "where id_order = :id_order";
 
     private static final String SQL_CREATE =
-            "insert into orders (customer, point_from, point_to, cost, weight, start_time, end_time, status, driver, description)"+
-                   "values(:customer,:point_from,:point_to,:cost,:weight,:start_time,:end_time,:status,:driver,:description)";
+            "insert into orders (customer, point_from, point_to, cost, weight, start_time, end_time, status, driver, description)" +
+                    "values(:customer,:point_from,:point_to,:cost,:weight,:start_time,:end_time,:status,:driver,:description)";
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
 
-    public List<Orders> selectOrdersByCustomer(String custname)
-    {
+    public List<Orders> selectOrdersByCustomer(String custname) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("customer",custname);
-        return jdbcTemplate.query(SELECT_BY_CUST,params, new OrdersMapper());
+        params.addValue("customer", custname);
+        return jdbcTemplate.query(SELECT_BY_CUST, params, new OrdersMapper());
     }
 
     public List<Orders> selectAllOrders() {
         return jdbcTemplate.query(SELECT_ALL, new OrdersMapper());
     }
 
-    private MapSqlParameterSource getParams(Orders order) {
+    private MapSqlParameterSource getParams(Orders order) { //Not idOrder
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("pointFrom",order.getPointFrom());
-        params.addValue("pointTo", order.getPointTo());
+        params.addValue("point_from", order.getPointFrom());
+        params.addValue("point_to", order.getPointTo());
         params.addValue("cost", order.getCost());
         params.addValue("weight", order.getWeight());
         params.addValue("description", order.getDescription());
-        params.addValue("startTime", order.getStartTime());
-        params.addValue("endTime", order.getEndTime());
+        params.addValue("start_time", order.getStartTime());
+        params.addValue("end_time", order.getEndTime());
         params.addValue("status", order.getStatus());
         params.addValue("driver", order.getDriver());
         params.addValue("customer", order.getCustomer());
-        params.addValue("idOrder", order.getIdOrder());
         return params;
     }
-    public void createOrders(Orders order)
-    {
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("pointFrom",order.getPointFrom());
-        params.addValue("pointTo", order.getPointTo());
-        params.addValue("cost", order.getCost());
-        params.addValue("weight", order.getWeight());
-        params.addValue("description", order.getDescription());
-        params.addValue("startTime", order.getStartTime());
-        params.addValue("endTime", order.getEndTime());
-        params.addValue("status", order.getStatus());
-        params.addValue("driver", order.getDriver());
-        params.addValue("customer", order.getCustomer());
-        jdbcTemplate.update(SQL_CREATE,params );
+
+    public void createOrders(Orders order) {
+        MapSqlParameterSource params =getParams(order);
+        jdbcTemplate.update(SQL_CREATE, params);
     }
 
-    public void updateOrders(Orders orders) {
-        jdbcTemplate.update(SQL_UPDATE, getParams(orders));
+    public void updateOrders(Orders order) {
+        MapSqlParameterSource params=getParams(order);
+        params.addValue("id_order", order.getIdOrder());
+        jdbcTemplate.update(SQL_UPDATE,params);
     }
-
 
 
 }
