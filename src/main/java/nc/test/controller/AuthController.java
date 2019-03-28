@@ -1,6 +1,5 @@
 package nc.test.controller;
 
-import nc.test.security.SecurityCheck;
 import nc.test.service.interfaces.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +51,6 @@ public class AuthController {
             cookie.setMaxAge(0);
         }
         return "logout";*/
-        SecurityCheck.checkBasicAuth("");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
