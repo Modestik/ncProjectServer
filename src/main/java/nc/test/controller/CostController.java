@@ -1,7 +1,7 @@
 package nc.test.controller;
 
 import nc.test.model.PriceDto;
-import nc.test.service.CostService;
+import nc.test.service.impl.CostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

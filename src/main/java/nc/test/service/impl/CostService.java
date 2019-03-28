@@ -1,4 +1,4 @@
-package nc.test.service;
+package nc.test.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import nc.test.model.PointItem;

@@ -1,8 +1,7 @@
-package nc.test.dao;
+package nc.test.dao.impl;
 
-import nc.test.dao.interfaces.OperatorDao;
+import nc.test.dao.OperatorDao;
 import nc.test.dao.mapper.OperatorMapper;
-import nc.test.model.MutantOperCust;
 import nc.test.model.Operator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

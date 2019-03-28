@@ -1,4 +1,4 @@
-package nc.test.service;
+package nc.test.service.impl;
 
 import nc.test.model.PointItem;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package nc.test.service.interfaces;
+package nc.test.service;
 
 import nc.test.model.MutantOperCust;
 import nc.test.model.Users;
@@ -18,6 +18,4 @@ public interface UserService {
     boolean deleteUserByLogin(String username);
 
     List<Users> getAllEmployees();
-
-
 }

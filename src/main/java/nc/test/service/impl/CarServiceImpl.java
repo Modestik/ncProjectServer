@@ -1,8 +1,8 @@
-package nc.test.service;
+package nc.test.service.impl;
 
-import nc.test.dao.interfaces.CarDao;
+import nc.test.dao.CarDao;
 import nc.test.model.Car;
-import nc.test.service.interfaces.CarService;
+import nc.test.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

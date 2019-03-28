@@ -1,4 +1,4 @@
-package nc.test.service.interfaces;
+package nc.test.service;
 
 import nc.test.model.Car;
 import org.springframework.http.HttpStatus;

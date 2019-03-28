@@ -1,6 +1,6 @@
-package nc.test.dao;
+package nc.test.dao.impl;
 
-import nc.test.dao.interfaces.UserDao;
+import nc.test.dao.UserDao;
 import nc.test.dao.mapper.UserMapper;
 import nc.test.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;

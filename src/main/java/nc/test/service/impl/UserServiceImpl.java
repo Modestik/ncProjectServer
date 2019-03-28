@@ -1,17 +1,13 @@
-package nc.test.service;
+package nc.test.service.impl;
 
-import nc.test.dao.interfaces.DriverDao;
-import nc.test.dao.interfaces.OperatorDao;
-import nc.test.dao.interfaces.UserDao;
+import nc.test.dao.DriverDao;
+import nc.test.dao.OperatorDao;
+import nc.test.dao.UserDao;
 import nc.test.exception.NotFoundException;
 import nc.test.model.Driver;
-import nc.test.model.MutantOperCust;
 import nc.test.model.Operator;
 import nc.test.model.Users;
-import nc.test.service.interfaces.UserService;
-import org.apache.tomcat.jni.User;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -40,6 +36,7 @@ public class UserServiceImpl implements UserService {
      *
      * @return код httpStatus
      */
+    @Transactional
     @Override
     public HttpStatus createUsers(Users users) {
         try {
@@ -68,6 +65,7 @@ public class UserServiceImpl implements UserService {
      * Мб потом добавится для Кастомера
      */
     @Override
+    @Transactional
     public boolean updateUsers(Users[] users) {
         try {
             for (int i = 0; i < users.length; i++) {
@@ -90,6 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean deleteUserByLogin(String username) {
         try {
             Users user = userDao.getUserByLogin(username).get();

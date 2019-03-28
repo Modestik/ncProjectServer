@@ -1,6 +1,6 @@
-package nc.test.dao;
+package nc.test.dao.impl;
 
-import nc.test.dao.interfaces.OrdersDao;
+import nc.test.dao.OrdersDao;
 import nc.test.dao.mapper.OrdersMapper;
 import nc.test.model.Orders;
 import org.springframework.beans.factory.annotation.Autowired;

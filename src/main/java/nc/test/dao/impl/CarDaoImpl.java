@@ -1,6 +1,6 @@
-package nc.test.dao;
+package nc.test.dao.impl;
 
-import nc.test.dao.interfaces.CarDao;
+import nc.test.dao.CarDao;
 import nc.test.dao.mapper.CarMapper;
 import nc.test.model.Car;
 import org.springframework.beans.factory.annotation.Autowired;

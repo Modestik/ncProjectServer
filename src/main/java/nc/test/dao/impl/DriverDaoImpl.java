@@ -1,6 +1,6 @@
-package nc.test.dao;
+package nc.test.dao.impl;
 
-import nc.test.dao.interfaces.DriverDao;
+import nc.test.dao.DriverDao;
 import nc.test.dao.mapper.DriverMapper;
 import nc.test.model.Driver;
 import org.springframework.beans.factory.annotation.Autowired;

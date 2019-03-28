@@ -1,4 +1,4 @@
-package nc.test.dao.interfaces;
+package nc.test.dao;
 
 import nc.test.model.Users;
 

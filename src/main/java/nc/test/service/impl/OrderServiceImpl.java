@@ -1,8 +1,8 @@
-package nc.test.service;
+package nc.test.service.impl;
 
-import nc.test.dao.OrdersDaoImpl;
+import nc.test.dao.impl.OrdersDaoImpl;
 import nc.test.model.Orders;
-import nc.test.service.interfaces.OrderService;
+import nc.test.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
