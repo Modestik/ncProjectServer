@@ -2,7 +2,7 @@ package nc.test.security;
 
 import nc.test.exception.NotFoundException;
 import nc.test.model.Users;
-import nc.test.service.interfaces.UserService;
+import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

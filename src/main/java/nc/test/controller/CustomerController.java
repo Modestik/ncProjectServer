@@ -1,8 +1,7 @@
 package nc.test.controller;
 
-
 import nc.test.model.MutantOperCust;
-import nc.test.service.interfaces.CustomerService;
+import nc.test.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
