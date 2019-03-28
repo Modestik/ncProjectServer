@@ -1,8 +1,7 @@
 package nc.test.controller;
 
-
 import nc.test.model.MutantOperCust;
-import nc.test.service.interfaces.CustomerService;
+import nc.test.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,6 @@ public class CustomerController {
     public MutantOperCust getUser(@RequestParam("name") String name) {
         return customerService.getUserByLogin(name);
     }
-
 
     @RequestMapping(value = "/name", method = RequestMethod.POST)
     public ResponseEntity updateUser(@Valid @RequestBody MutantOperCust mutantOperCust) {

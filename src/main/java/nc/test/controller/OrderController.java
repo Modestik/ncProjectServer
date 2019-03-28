@@ -1,7 +1,7 @@
 package nc.test.controller;
 
 import nc.test.model.Orders;
-import nc.test.service.OrderServiceImpl;
+import nc.test.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
