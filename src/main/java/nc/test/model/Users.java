@@ -39,4 +39,13 @@ public class Users {
                 .setPhone(phone);
         return operator;
     }
+
+    public MutantOperCust toCustomer() {
+        MutantOperCust cust = new MutantOperCust();
+        cust.setUsername(username)
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setPhone(phone);
+        return cust;
+    }
 }

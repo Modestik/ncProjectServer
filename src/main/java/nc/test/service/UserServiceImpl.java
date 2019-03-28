@@ -1,5 +1,6 @@
 package nc.test.service;
 
+import nc.test.dao.interfaces.CustomerDao;
 import nc.test.dao.interfaces.DriverDao;
 import nc.test.dao.interfaces.OperatorDao;
 import nc.test.dao.interfaces.UserDao;
@@ -29,6 +30,9 @@ public class UserServiceImpl implements UserService {
     private DriverDao driverDao;
     @Autowired
     private OperatorDao operatorDao;
+    @Autowired
+    private CustomerDao customerDao;
+
 
     @Override
     public Users getUserByLogin(String username) {
@@ -50,9 +54,13 @@ public class UserServiceImpl implements UserService {
                 if (users.getRole().equals("DRIVER")) {
                     Driver driver = users.toDriver();
                     driverDao.insert(driver);
-                } else {
+                }
+                if (users.getRole().equals("OPERATOR")) {
                     Operator operator = users.toOperator();
                     operatorDao.insert(operator);
+                } else {
+                    MutantOperCust cust = users.toCustomer();
+                    customerDao.insert(cust);
                 }
                 return HttpStatus.CREATED;
             } else {

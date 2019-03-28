@@ -13,6 +13,9 @@ INSERT INTO customers (username, first_name, last_name, phone_number)
 VALUES ('customer', 'customer', 'customer', '89204400232');
 INSERT INTO customers (username, first_name, last_name, phone_number)
 VALUES ('nikita', 'nikita', 'nikita', '89204400232');
+
+INSERT INTO operators (username, first_name, last_name, phone_number)
+VALUES ('operator', 'operator', 'operator', '89204400232');
 INSERT INTO orders (customer, point_from, point_to, cost, weight, start_time, end_time, status, driver, description)
 VALUES ('customer', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01,'до 1 кг ', '2019-3-19 15:13', null, 'open', null,
         'my number 555-111-111');

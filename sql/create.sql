@@ -47,12 +47,12 @@ create table drivers
 drop table if exists customers;
 create table customers
 (
-  username varchar(50) not null
+  username varchar(50)
     constraint customers_pk
       primary key,
-  first_name varchar(50) not null,
-  last_name varchar(50) not null,
-  phone_number varchar(12) not null
+  first_name varchar(50),
+  last_name varchar(50),
+  phone_number varchar(12)
 );
 
 --orders

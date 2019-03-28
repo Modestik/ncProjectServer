@@ -7,4 +7,5 @@ public interface CustomerDao {
 
     MutantOperCust getCustomer(String name);
     void update(MutantOperCust mutantOperCust);
+    void insert(MutantOperCust cust);
 }

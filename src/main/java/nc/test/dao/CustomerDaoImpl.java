@@ -4,6 +4,7 @@ import nc.test.dao.interfaces.CustomerDao;
 import nc.test.dao.mapper.CustomerMapper;
 import nc.test.dao.mapper.OperatorMapper;
 import nc.test.model.MutantOperCust;
+import nc.test.model.Operator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,6 +19,9 @@ public class CustomerDaoImpl implements CustomerDao {
                     "last_name = :last_name," +
                     "phone_number = :phone_number " +
                     "where username = :username";
+    private final String SQL_INSERT =
+            "insert into customers (username, first_name, last_name, phone_number) " +
+                    "values (:username, :first_name ,:last_name,:phone_number)";
 
     private final String SELECT_BY_CUST = "SELECT * from customers WHERE  username = :username";
     public MutantOperCust getCustomer(String name)
@@ -26,7 +30,12 @@ public class CustomerDaoImpl implements CustomerDao {
         params.addValue("username",name);
         return jdbcTemplate.query(SELECT_BY_CUST,params, new CustomerMapper()).get(0);
     }
-    private MapSqlParameterSource operatorParams(MutantOperCust mutantOperCust) {
+    @Override
+    public void insert(MutantOperCust cust) {
+        MapSqlParameterSource params = customerParams(cust);
+        jdbcTemplate.update(SQL_INSERT, params);
+    }
+    private MapSqlParameterSource customerParams(MutantOperCust mutantOperCust) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", mutantOperCust.getUsername());
         params.addValue("first_name", mutantOperCust.getFirstName());
@@ -36,7 +45,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
     public void update(MutantOperCust mutantOperCust)
     {
-        MapSqlParameterSource params = operatorParams(mutantOperCust);
+        MapSqlParameterSource params = customerParams(mutantOperCust);
         jdbcTemplate.update(SQL_UPDATE, params);
     }
 }
