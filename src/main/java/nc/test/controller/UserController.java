@@ -18,37 +18,45 @@ public class UserController {
     /**
      * Контроллер для добавления сотрудника
      */
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody Users users) {
-        return ResponseEntity.status(userService.createUsers(users)).build();
+    @RequestMapping(value = "/user/customers", method = RequestMethod.POST)
+    public ResponseEntity createCustomers(@RequestBody Users users) {
+        HttpStatus status = userService.createEmployees(users);
+        return ResponseEntity.status(status).build();
+    }
+
+    /**
+     * Контроллер для добавления сотрудника
+     */
+    @RequestMapping(value = "/user/employees", method = RequestMethod.POST)
+    public ResponseEntity createEmployees(@RequestBody Users users) {
+        return ResponseEntity.status(userService.createEmployees(users)).build();
+    }
+
+    /**
+     * Контроллер возвращающий всех сотрудников системы
+     */
+    @RequestMapping(value = "/user/employees", method = RequestMethod.GET)
+    public List<Users> getAllEmployees() {
+        List<Users> list = userService.getAllEmployees();
+        return list;
     }
 
     /**
      * Контроллер для update
      */
-    @RequestMapping(value = "/user/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/employees/update", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody Users[] users) {
-        return userService.updateUsers(users) ?
-                ResponseEntity.status(HttpStatus.OK).build() :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        HttpStatus status = userService.updateEmployees(users);
+        return ResponseEntity.status(status).build();
     }
+
 
     /**
-     * Контроллер возвращающий всех сотрудников системы
-     *
-     * @return
+     * Контроллер для удаления сотрудников
      */
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<Users> getAllEmployees() {
-        List<Users> list = userService.getAllEmployees();
-        return list;
-        //return new ResponseEntity(responce, responce == null ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/user/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/employees/delete", method = RequestMethod.DELETE)
     public ResponseEntity delete(@RequestBody String username) {
-        return userService.deleteUserByLogin(username) ?
-                ResponseEntity.status(HttpStatus.OK).build() :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        HttpStatus status = userService.deleteUserByLogin(username);
+        return ResponseEntity.status(status).build();
     }
 }

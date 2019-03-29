@@ -1,11 +1,13 @@
 package nc.test.config.parent;
 
+import nc.test.security.MyBasicAccessDeniedHandler;
 import nc.test.security.MyBasicAuthenticationProvider;
 import nc.test.security.MyBasicAuthenticationEntryPoint;
 import nc.test.security.MyBasicAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,18 +17,18 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity //включает поддержку web security и обеспечивает интеграцию со Spring MVC
 @ComponentScan("nc.test.security")
-//@Import(DBConfig.class)
+@PropertySource("classpath:log4j.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityConfig() {
         super();
     }
 
-/*    @Autowired
-    private DataSource dataSource;*/
-
     @Autowired
     private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+
+    @Autowired
+    private MyBasicAccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private MyBasicAuthenticationProvider authProvider;
@@ -34,10 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
-/*        auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, true from users where username=?")
-                .authoritiesByUsernameQuery("select username,'ROLE_' || role from users where username=?")
-                .passwordEncoder(new BCryptPasswordEncoder());*/
     }
 
     @Override
@@ -47,20 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/*").hasAnyRole("CUSTOMER", "ADMIN", "DRIVER", "OPERATOR")
                 .antMatchers("/orders/*").permitAll()
                 .antMatchers("/customer/name").permitAll()
-                .antMatchers("/car/*").hasAnyRole( "ADMIN")
-                .antMatchers("/user/*").hasAnyRole( "ADMIN")
+                .antMatchers("/car/*").hasAnyRole("ADMIN")
+                .antMatchers("/user/employees/*").hasAnyRole("ADMIN")
+                .antMatchers("/user/customers").permitAll()
                 .antMatchers("/price").permitAll()
                 .anyRequest().permitAll()
-                .and().httpBasic()
+                .and()
+                    .httpBasic()
                     .authenticationEntryPoint(authenticationEntryPoint)
-                .and().logout()
+                .and()
+                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .and()
+                    .logout()
                     .logoutUrl("/auth/logout")
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID");
 
 
         //Фильтр
-        http.addFilterBefore(
-                new MyBasicAuthenticationFilter(), BasicAuthenticationFilter.class);
+        //  http.addFilterBefore(
+        //         new MyBasicAuthenticationFilter(), BasicAuthenticationFilter.class);
     }
 }

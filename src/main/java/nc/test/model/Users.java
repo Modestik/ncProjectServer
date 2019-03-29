@@ -40,8 +40,8 @@ public class Users {
         return operator;
     }
 
-    public MutantOperCust toCustomer() {
-        MutantOperCust cust = new MutantOperCust();
+    public Customer toCustomer() {
+        Customer cust = new Customer();
         cust.setUsername(username)
                 .setFirstName(firstName)
                 .setLastName(lastName)

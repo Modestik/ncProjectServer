@@ -1,5 +1,6 @@
 package nc.test.service.impl;
 
+import lombok.extern.log4j.Log4j;
 import nc.test.dao.DriverDao;
 import nc.test.model.Driver;
 import nc.test.service.DriverService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Log4j
 @Service
 public class DriverServiceImpl implements DriverService {
     @Autowired
@@ -15,6 +17,12 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public List<Driver> getAllDrivers() {
-        return driverDao.getAllDrivers();
+        List<Driver> list = driverDao.getAllDrivers();
+        log.info(new StringBuilder()
+                .append("Получена список водителей из ")
+                .append(list.size())
+                .append(" человек ")
+        );
+        return list;
     }
 }

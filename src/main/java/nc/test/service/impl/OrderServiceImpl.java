@@ -4,6 +4,7 @@ import nc.test.dao.impl.OrdersDaoImpl;
 import nc.test.model.Orders;
 import nc.test.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +26,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrders(Orders orders) {
-        orderDao.updateOrders(orders);
+    public HttpStatus updateOrders(Orders orders) {
+        try {
+            orderDao.updateOrders(orders);
+            return HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
     @Override
-    public void createOrders(Orders orders) {
-        orderDao.createOrders(orders);
+    public HttpStatus createOrders(Orders orders) {
+        try {
+            orderDao.createOrders(orders);
+            return HttpStatus.CREATED;
+        } catch (Exception e) {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 }

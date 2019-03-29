@@ -1,6 +1,5 @@
 package nc.test.dao.mapper;
 
-import nc.test.model.MutantOperCust;
 import nc.test.model.Operator;
 import org.springframework.jdbc.core.RowMapper;
 

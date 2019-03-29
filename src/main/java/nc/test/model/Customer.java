@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class MutantOperCust {
+public class Customer {
     private String username;
     private String firstName;
     private String lastName;

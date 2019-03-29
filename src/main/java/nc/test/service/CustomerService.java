@@ -1,10 +1,11 @@
 package nc.test.service;
 
-import nc.test.model.MutantOperCust;
+import nc.test.model.Customer;
+import org.springframework.http.HttpStatus;
 
 public interface CustomerService {
 
-    boolean updateUser(MutantOperCust mutantOperCust);
+    HttpStatus updateUser(Customer customer);
 
-    MutantOperCust getUserByLogin(String username);
+    Customer getUserByLogin(String username);
 }

@@ -1,11 +1,13 @@
 package nc.test.dao;
 
-import nc.test.model.MutantOperCust;
+import nc.test.model.Customer;
 
 
 public interface CustomerDao {
 
-    MutantOperCust getCustomer(String name);
-    void update(MutantOperCust mutantOperCust);
-    void insert(MutantOperCust cust);
+    Customer getCustomer(String name);
+
+    void update(Customer customer);
+
+    void insert(Customer cust);
 }
