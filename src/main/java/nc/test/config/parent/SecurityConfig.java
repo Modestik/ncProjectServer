@@ -1,23 +1,29 @@
 package nc.test.config.parent;
 
-import nc.test.security.MyBasicAccessDeniedHandler;
-import nc.test.security.MyBasicAuthenticationProvider;
-import nc.test.security.MyBasicAuthenticationEntryPoint;
-import nc.test.security.MyBasicAuthenticationFilter;
+import nc.test.security.*;
+import nc.test.service.UserService;
+import nc.test.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.filter.GenericFilterBean;
 
 @Configuration
 @EnableWebSecurity //включает поддержку web security и обеспечивает интеграцию со Spring MVC
 @ComponentScan("nc.test.security")
+@ComponentScan("nc.test.service")
 @PropertySource("classpath:log4j.properties")
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityConfig() {
@@ -32,6 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyBasicAuthenticationProvider authProvider;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -51,19 +60,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/price").permitAll()
                 .anyRequest().permitAll()
                 .and()
-                    .httpBasic()
-                    .authenticationEntryPoint(authenticationEntryPoint)
+                .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
-                    .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                 .and()
-                    .logout()
-                    .logoutUrl("/auth/logout")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID");
+                .logout()
+                .logoutUrl("/auth/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
 
-
-        //Фильтр
-        //  http.addFilterBefore(
-        //         new MyBasicAuthenticationFilter(), BasicAuthenticationFilter.class);
+        http.addFilterBefore(
+                new MyTokenFilter(userService), UsernamePasswordAuthenticationFilter.class);
     }
 }

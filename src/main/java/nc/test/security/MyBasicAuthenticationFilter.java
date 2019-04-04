@@ -39,7 +39,7 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
         assert tokens.length == 2;
 
         String username = tokens[0];
-       // String password = tokens[1];
+        // String password = tokens[1];
 
         Authentication existingAuth = SecurityContextHolder.getContext().getAuthentication();
 
