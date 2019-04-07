@@ -8,7 +8,10 @@ import java.util.List;
 public interface OrderService {
 
     List<Orders> selectAllOrders();
+
     List<Orders> selectOrdersByCustomer(String custname);
+
     HttpStatus updateOrders(Orders orders);
+
     HttpStatus createOrders(Orders orders);
 }

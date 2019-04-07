@@ -31,6 +31,7 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
         );
     }
 
+
     @Override
     public void afterPropertiesSet() throws Exception {
         setRealmName("Modest");

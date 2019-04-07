@@ -1,6 +1,7 @@
 package nc.test.config.parent;
 
 import nc.test.security.*;
+import nc.test.service.SessionService;
 import nc.test.service.UserService;
 import nc.test.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SessionService sessionService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
@@ -59,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/customers").permitAll()
                 .antMatchers("/price").permitAll()
                 .anyRequest().permitAll()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint)
+                //.and()
+                //.httpBasic()
+                //.authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                 .and()
@@ -70,7 +74,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 
+        /*http.addFilterBefore(
+                new MyTokenFilter(userService), UsernamePasswordAuthenticationFilter.class);*/
+
         http.addFilterBefore(
-                new MyTokenFilter(userService), UsernamePasswordAuthenticationFilter.class);
+                new MyBasicAuthenticationFilter(authenticationManager(),
+                                                authenticationEntryPoint,
+                                                sessionService,
+                                                userService),
+                BasicAuthenticationFilter.class);
+
     }
 }
