@@ -79,9 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(
                 new MyBasicAuthenticationFilter(authenticationManager(),
-                                                authenticationEntryPoint,
-                                                sessionService,
-                                                userService),
+                        authenticationEntryPoint,
+                        sessionService,
+                        userService),
                 BasicAuthenticationFilter.class);
 
     }

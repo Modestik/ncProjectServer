@@ -21,6 +21,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Base64;
 
 public class MyBasicAuthenticationFilter extends GenericFilterBean {
@@ -60,21 +61,24 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
             return;
         }
         try {
-            String[] tokens = extractAndDecodeHeader(header);
+            //Заголовок
+            String head = header.startsWith(Sessions.BASIC) ? Sessions.BASIC : Sessions.SESSION;
+
+            String[] tokens = extractAndDecodeHeader(header,head);
 
             assert tokens.length == 2;
 
             String username = tokens[0];
 
-            if (header.startsWith(Sessions.BASIC)) {
+            if (head.equals(Sessions.BASIC)) {
                 Users users = userService.getUserByLogin(username);
                 String passwordFromRequest = tokens[1];
                 String passwordFromDB = users.getPassword();
-                if (!BCrypt.checkpw(passwordFromRequest, passwordFromDB)) {
+/*                if (!BCrypt.checkpw(passwordFromRequest, passwordFromDB)) {
                     //хотел кинуть throw AuthenticationException , но что-то пошло не так
                     authenticationEntryPoint.commence(request, response , null);
                     return;
-                }
+                }*/
 
                 sessionService.createSession(username);
                 Sessions sessions = sessionService.getSession(username);
@@ -89,10 +93,11 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
 
                 //потом перепишу со StringBuilder'ом
                 String originalInput = sessions.getUsername() + ":" + sessions.getId();
-                String token = Sessions.SESSION + " " + java.util.Base64.getEncoder().encodeToString(originalInput.getBytes());
+                String token = Sessions.SESSION + java.util.Base64.getEncoder().encodeToString(originalInput.getBytes(Charset.forName("US-ASCII")));
                 response.addHeader(HttpHeaders.AUTHORIZATION, token);
 
             } else {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 Sessions sessions = sessionService.getSession(username);
                 sessionService.updateSession(sessions.getId());
             }
@@ -126,9 +131,10 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
      * @return
      * @throws IOException
      */
-    private String[] extractAndDecodeHeader(String header) throws IOException {
+    private String[] extractAndDecodeHeader(String header, String flag) throws IOException {
 
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+        String string = header.substring(flag.length());
+        byte[] base64Token = header.substring(flag.length()).getBytes(Charset.forName("US-ASCII"));
         byte[] decoded;
         try {
             decoded = Base64.getDecoder().decode(base64Token);
