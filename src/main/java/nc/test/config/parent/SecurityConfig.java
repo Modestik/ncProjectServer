@@ -74,9 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 
-        /*http.addFilterBefore(
-                new MyTokenFilter(userService), UsernamePasswordAuthenticationFilter.class);*/
-
         http.addFilterBefore(
                 new MyBasicAuthenticationFilter(authenticationManager(),
                         authenticationEntryPoint,

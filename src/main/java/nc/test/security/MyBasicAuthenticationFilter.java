@@ -64,76 +64,48 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
             //Заголовок
             String head = header.startsWith(Sessions.BASIC) ? Sessions.BASIC : Sessions.SESSION;
 
-            String[] tokens = extractAndDecodeHeader(header,head);
+            String[] tokens = extractAndDecodeHeader(header, head);
 
-            assert tokens.length == 2;
+            String username = tokens[0];    //login
+            String password;                //password
+            int id;                         //id session
 
-            String username = tokens[0];
-
-            if (head.equals(Sessions.BASIC)) {
-                Users users = userService.getUserByLogin(username);
-                String passwordFromRequest = tokens[1];
-                String passwordFromDB = users.getPassword();
-/*                if (!BCrypt.checkpw(passwordFromRequest, passwordFromDB)) {
-                    //хотел кинуть throw AuthenticationException , но что-то пошло не так
-                    authenticationEntryPoint.commence(request, response , null);
-                    return;
-                }*/
-
-                sessionService.createSession(username);
-                Sessions sessions = sessionService.getSession(username);
-
-                //////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                UsernamePasswordAuthenticationToken authRequest =
-                        new UsernamePasswordAuthenticationToken(username, passwordFromRequest);
-                authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
-
-                Authentication authResult = authenticationManager.authenticate(authRequest);
-                SecurityContextHolder.getContext().setAuthentication(authResult);
-
-                //потом перепишу со StringBuilder'ом
-                String originalInput = sessions.getUsername() + ":" + sessions.getId();
-                String token = Sessions.SESSION + java.util.Base64.getEncoder().encodeToString(originalInput.getBytes(Charset.forName("US-ASCII")));
-                response.addHeader(HttpHeaders.AUTHORIZATION, token);
-
-            } else {
+            if (head.equals(Sessions.BASIC)) {  //создаем сессию в бд
+                password = tokens[1];
+                id = sessionService.createSession(username);
+            } else {                            //просто апдейтим последнее действие
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                Sessions sessions = sessionService.getSession(username);
-                sessionService.updateSession(sessions.getId());
+                id = Integer.parseInt(tokens[1]);
+                sessionService.updateSession(id);
+                Users users = userService.getUserByLogin(username);
+                password = users.getPassword();
             }
 
-            //Authentification
-            if (authenticationIsRequired(username)) {
-                //по идеи он должен создаваться только при авторизации
-                String breakpoint;
-               /* UsernamePasswordAuthenticationToken authRequest =
-                        new UsernamePasswordAuthenticationToken(username, password);
+            if (authenticationIsRequired(username)) {   //контекст всегда очищается(?) и это срабатывает всегда
+                //////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                Sessions sessions = sessionService.getSession(id, username);
+
+                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
                 authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
 
                 Authentication authResult = authenticationManager.authenticate(authRequest);
-                System.out.println("До установления контекста" + request.getRequestURI());
                 SecurityContextHolder.getContext().setAuthentication(authResult);
-                onSuccessfulAuthentication(request, response, authResult, username, authOption);*/
+
+                //потом перепишу со StringBuilder'ом(но это не точно)
+                String originalInput = sessions.getUsername() + ":" + sessions.getId();
+                String token = Sessions.SESSION + Base64.getEncoder().encodeToString(originalInput.getBytes(Charset.forName("US-ASCII")));
+                response.addHeader(HttpHeaders.AUTHORIZATION, token);
             }
         } catch (AuthenticationException failed) {
             SecurityContextHolder.clearContext();
             authenticationEntryPoint.commence(request, response, failed);
             return;
         }
-
         chain.doFilter(servletRequest, servletResponse);
     }
 
-    /**
-     * Метод декодирующий Base64
-     *
-     * @param header - Authentication
-     * @return
-     * @throws IOException
-     */
-    private String[] extractAndDecodeHeader(String header, String flag) throws IOException {
+    private String[] extractAndDecodeHeader(String header, String flag) {
 
-        String string = header.substring(flag.length());
         byte[] base64Token = header.substring(flag.length()).getBytes(Charset.forName("US-ASCII"));
         byte[] decoded;
         try {

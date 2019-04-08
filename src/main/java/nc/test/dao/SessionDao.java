@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface SessionDao {
 
-    Optional<Sessions> getUserByLogin(String username);
+    Optional<Sessions> getSession(int id, String username);
 
-    void insert(String username);
+    int insert(String username);
 
     void update(int id);
 

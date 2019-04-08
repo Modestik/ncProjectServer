@@ -4,9 +4,9 @@ import nc.test.model.Sessions;
 
 public interface SessionService {
 
-    void createSession(String username);
+    int createSession(String username);
 
     void updateSession(int id);
 
-    Sessions getSession(String username);
+    Sessions getSession(int id, String username);
 }

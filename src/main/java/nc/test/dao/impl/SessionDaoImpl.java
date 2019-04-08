@@ -16,10 +16,10 @@ import java.util.Optional;
 public class SessionDaoImpl implements SessionDao {
 
     private static final String SQL_GET_BY_USERNAME =
-            "select * from sessions where username = :username";
+            "select * from sessions where username = :username and id =:id";
 
     private static final String SQL_INSERT =
-            "insert into sessions (username, time_of_begin, time_recent_activity) values (:username, :time_of_begin ,:time_recent_activity)";
+            "insert into sessions (username, time_of_begin, time_recent_activity) values (:username, :time_of_begin ,:time_recent_activity) returning id";
 
     private static final String SQL_UPDATE =
             "update sessions set time_recent_activity = :time_recent_activity where id = :id";
@@ -35,9 +35,10 @@ public class SessionDaoImpl implements SessionDao {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public Optional<Sessions> getUserByLogin(String username) {
+    public Optional<Sessions> getSession(int id, String username) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", username);
+        params.addValue("id", id);
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
@@ -52,12 +53,13 @@ public class SessionDaoImpl implements SessionDao {
     }
 
     @Override
-    public void insert(String username) {
+    public int insert(String username) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", username);
         params.addValue("time_of_begin", LocalDateTime.now());
         params.addValue("time_recent_activity", LocalDateTime.now());
-        jdbcTemplate.update(SQL_INSERT, params);
+        int id = jdbcTemplate.queryForObject(SQL_INSERT, params, Integer.class);
+        return id;
     }
 
     @Override

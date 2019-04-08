@@ -14,8 +14,8 @@ public class SessionServiceImpl implements SessionService {
     SessionDao sessionDao;
 
     @Override
-    public void createSession(String username) {
-        sessionDao.insert(username);
+    public int createSession(String username) {
+        return sessionDao.insert(username);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Sessions getSession(String username) {
-        return sessionDao.getUserByLogin(username).orElseThrow(() -> new NotFoundException(username));
+    public Sessions getSession(int id, String username) {
+        return sessionDao.getSession(id, username).orElseThrow(() -> new NotFoundException(username));
     }
 }

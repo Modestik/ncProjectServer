@@ -36,8 +36,8 @@ public class MyBasicAuthenticationProvider implements AuthenticationProvider {
 
             Users user = userService.getUserByLogin(name);
             String passwordBcrypt = user.getPassword();
-
-            if (BCrypt.checkpw(password, passwordBcrypt)) {
+            //2 условие когда приходит Session и пароль заполняется хешем из бд
+            if (BCrypt.checkpw(password, passwordBcrypt) || password.equals(passwordBcrypt)) {
                 List<GrantedAuthority> grantedAuths = new ArrayList<>();
                 grantedAuths.add(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
                 UserDetails principal = new User(name, password, grantedAuths);

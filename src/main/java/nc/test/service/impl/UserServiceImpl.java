@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
      * @return код httpStatus
      */
     @Override
-    @Transactional
     public HttpStatus createEmployees(Users users) {
         try {
             //Если пользователь уже есть в системе, выход
@@ -70,7 +69,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public HttpStatus createCustomers(Users users) {
         try {
             if (userDao.loginIsEmpty(users.getUsername())) {
@@ -93,7 +91,6 @@ public class UserServiceImpl implements UserService {
      * Метод update для всех сотрудников(после кнопки update на странице Админа)
      */
     @Override
-    @Transactional
     public HttpStatus updateEmployees(Users[] users) {
         try {
             for (int i = 0; i < users.length; i++) {
@@ -118,7 +115,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public HttpStatus deleteUserByLogin(String username) {
         try {
             Users user = userDao.getUserByLogin(username).get();
@@ -141,7 +137,6 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    @Transactional
     public List<Users> getAllEmployees() {
         try {
             List<Driver> driverList = driverDao.getAllDrivers();
