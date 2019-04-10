@@ -1,5 +1,21 @@
 --users
 -- auto-generated definition
+
+drop table if exists  sessions;
+create table sessions
+(
+  -- Only integer types can be auto increment
+  id                   varchar(32)  not null
+    constraint session_id_pkey
+      primary key,
+  username             varchar(100) not null
+    constraint login_fk
+      references users
+      on update cascade on delete cascade,
+  time_of_begin        timestamp    not null,
+  time_recent_activity timestamp    not null
+);
+
 drop table if exists users;
 create table users
 (
@@ -90,16 +106,3 @@ create table operators
   phone_number varchar(12) not null
 );
 
-create table sessions
-(
-  -- Only integer types can be auto increment
-  id                   varchar(32)  not null
-    constraint session_id_pkey
-      primary key,
-  username             varchar(100) not null
-    constraint login_fk
-      references users
-      on update cascade on delete cascade,
-  time_of_begin        timestamp    not null,
-  time_recent_activity timestamp    not null
-);

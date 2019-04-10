@@ -27,36 +27,21 @@ public class CustomLogoutSuccessHandler extends
             HttpServletResponse response,
             Authentication authentication)
             throws IOException, ServletException {
-
-        String header = request.getHeader("Authorization");
-
-        if (header.startsWith(Sessions.SESSION)) {
-            String[] tokens = extractAndDecodeHeader(header, Sessions.SESSION);
-            String id = tokens[1];
-            sessionService.deleteSession(id);
-        }
-        super.onLogoutSuccess(request, response, authentication);
-    }
-
-    private String[] extractAndDecodeHeader(String header, String flag) {
-
-        byte[] base64Token = header.substring(flag.length()).getBytes(Charset.forName("US-ASCII"));
-        byte[] decoded;
         try {
-            decoded = Base64.getDecoder().decode(base64Token);
-        } catch (IllegalArgumentException e) {
-            throw new BadCredentialsException(
-                    "Failed to decode basic authentication token");
+            String header = request.getHeader("Authorization");
+            if (header != null && header.startsWith(Sessions.SESSION)) {
+                byte[] base64Token = header.substring(Sessions.SESSION.length()).getBytes(Charset.forName("US-ASCII"));
+                byte[] decoded = Base64.getDecoder().decode(base64Token);
+                String token = new String(decoded);
+                String id = token.split(":")[1];
+                sessionService.deleteSession(id);
+            }
+            super.onLogoutSuccess(request, response, authentication);
         }
-
-        String token = new String(decoded);
-
-        int delim = token.indexOf(":");
-
-        if (delim == -1) {
-            throw new BadCredentialsException("Invalid basic authentication token");
+        catch(Exception ex)
+        {
+            System.out.println(ex.getMessage());
         }
-        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
 
 }
