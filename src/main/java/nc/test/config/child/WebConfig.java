@@ -13,7 +13,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"nc.test.controller", "nc.test.model"})
+@ComponentScan("nc.test")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     public WebConfig() {

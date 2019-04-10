@@ -26,7 +26,7 @@ public class CarController {
         return carList;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/car", method = RequestMethod.POST)
     public ResponseEntity createCar(@RequestBody Car car) {
         return ResponseEntity.status(carService.createCar(car)).build();
     }

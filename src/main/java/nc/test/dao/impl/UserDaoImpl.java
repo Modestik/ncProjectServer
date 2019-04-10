@@ -91,7 +91,7 @@ public class UserDaoImpl implements UserDao {
     public boolean loginIsEmpty(String username) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", username);
-        String count = (String) jdbcTemplate.queryForObject(SQL_COUNT, params, String.class);
+        String count = jdbcTemplate.queryForObject(SQL_COUNT, params, String.class);
         if (count.equals("0")) {
             return true;
         } else {

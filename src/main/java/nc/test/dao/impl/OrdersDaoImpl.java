@@ -14,8 +14,8 @@ import java.util.List;
 public class OrdersDaoImpl implements OrdersDao {
 
 
-    private final String SELECT_ALL = "SELECT * from ORDERS";
-    private final String SELECT_BY_CUST = "SELECT * from ORDERS WHERE customer = :customer";
+    private static final String SELECT_ALL = "SELECT * from ORDERS";
+    private static final String SELECT_BY_CUST = "SELECT * from ORDERS WHERE customer = :customer";
     private static final String SQL_UPDATE =
             "update orders set point_from = :point_from, " +
                     "point_to = :point_to," +

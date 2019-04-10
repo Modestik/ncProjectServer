@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@ComponentScan({"nc.test.service", "nc.test.dao"})
+@ComponentScan("nc.test")
 @PropertySource("classpath:log4j.properties")
 public class ServiceConfig {
     public ServiceConfig() {

@@ -1,7 +1,9 @@
 package nc.test.service.impl;
 
 import lombok.extern.log4j.Log4j;
+import nc.test.dao.SessionDao;
 import nc.test.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Service;
 @Log4j
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    @Autowired
+    SessionDao sessionDao;
 
     @Override
     public String getRole() {
