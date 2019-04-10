@@ -27,4 +27,10 @@ public class SessionServiceImpl implements SessionService {
     public Sessions getSession(int id, String username) {
         return sessionDao.getSession(id, username).orElseThrow(() -> new NotFoundException(username));
     }
+    @Override
+    public void deleteSession(int id)
+    {
+        sessionDao.deleteSessionById(id);
+    }
+
 }

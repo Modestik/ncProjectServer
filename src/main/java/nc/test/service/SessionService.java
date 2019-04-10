@@ -7,6 +7,6 @@ public interface SessionService {
     int createSession(String username);
 
     void updateSession(int id);
-
+    void deleteSession(int id);
     Sessions getSession(int id, String username);
 }
