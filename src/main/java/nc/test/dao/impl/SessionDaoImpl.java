@@ -16,10 +16,11 @@ import java.util.Optional;
 public class SessionDaoImpl implements SessionDao {
 
     private static final String SQL_GET_BY_USERNAME =
-            "select * from sessions where username = :username and id =:id";
+            "select * from sessions where id =:id";
 
     private static final String SQL_INSERT =
-            "insert into sessions (username, time_of_begin, time_recent_activity) values (:username, :time_of_begin ,:time_recent_activity) returning id";
+            "insert into sessions (id, username, time_of_begin, time_recent_activity) values " +
+                    "(:id, :username, :time_of_begin, :time_recent_activity)";
 
     private static final String SQL_UPDATE =
             "update sessions set time_recent_activity = :time_recent_activity where id = :id";
@@ -35,9 +36,8 @@ public class SessionDaoImpl implements SessionDao {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public Optional<Sessions> getSession(int id, String username) {
+    public Optional<Sessions> getSession(String id) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("username", username);
         params.addValue("id", id);
         try {
             return Optional.ofNullable(
@@ -53,17 +53,17 @@ public class SessionDaoImpl implements SessionDao {
     }
 
     @Override
-    public int insert(String username) {
+    public void insert(String id, String username) {
         MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
         params.addValue("username", username);
         params.addValue("time_of_begin", LocalDateTime.now());
         params.addValue("time_recent_activity", LocalDateTime.now());
-        int id = jdbcTemplate.queryForObject(SQL_INSERT, params, Integer.class);
-        return id;
+        jdbcTemplate.update(SQL_INSERT, params);
     }
 
     @Override
-    public void update(int id) {
+    public void update(String id) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
         params.addValue("time_recent_activity", LocalDateTime.now());
@@ -71,7 +71,7 @@ public class SessionDaoImpl implements SessionDao {
     }
 
     @Override
-    public void deleteSessionById(int id) {
+    public void deleteSessionById(String id) {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
         jdbcTemplate.update(SQL_DELETE, params);

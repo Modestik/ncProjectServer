@@ -30,14 +30,14 @@ public class CustomLogoutSuccessHandler extends
 
         String header = request.getHeader("Authorization");
 
-        if (header.startsWith(Sessions.SESSION))
-        {
+        if (header.startsWith(Sessions.SESSION)) {
             String[] tokens = extractAndDecodeHeader(header, Sessions.SESSION);
-            int id = Integer.parseInt(tokens[1]);
+            String id = tokens[1];
             sessionService.deleteSession(id);
         }
         super.onLogoutSuccess(request, response, authentication);
     }
+
     private String[] extractAndDecodeHeader(String header, String flag) {
 
         byte[] base64Token = header.substring(flag.length()).getBytes(Charset.forName("US-ASCII"));

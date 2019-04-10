@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface SessionDao {
 
-    Optional<Sessions> getSession(int id, String username);
+    Optional<Sessions> getSession(String id);
 
-    int insert(String username);
+    void insert(String id, String username);
 
-    void update(int id);
+    void update(String id);
 
-    void deleteSessionById(int id);
+    void deleteSessionById(String id);
 }

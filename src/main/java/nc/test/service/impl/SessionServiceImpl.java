@@ -14,23 +14,22 @@ public class SessionServiceImpl implements SessionService {
     SessionDao sessionDao;
 
     @Override
-    public int createSession(String username) {
-        return sessionDao.insert(username);
+    public void createSession(String id, String username) {
+        sessionDao.insert(id, username);
     }
 
     @Override
-    public void updateSession(int id) {
+    public void updateSession(String id) {
         sessionDao.update(id);
     }
 
     @Override
-    public Sessions getSession(int id, String username) {
-        return sessionDao.getSession(id, username).orElseThrow(() -> new NotFoundException(username));
-    }
-    @Override
-    public void deleteSession(int id)
-    {
+    public void deleteSession(String id) {
         sessionDao.deleteSessionById(id);
     }
 
+    @Override
+    public Sessions getSession(String id) {
+        return sessionDao.getSession(id).orElseThrow(() -> new NotFoundException(id));
+    }
 }

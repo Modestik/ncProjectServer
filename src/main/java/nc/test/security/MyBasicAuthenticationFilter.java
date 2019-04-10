@@ -20,6 +20,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Base64;
@@ -68,14 +69,16 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
 
             String username = tokens[0];    //login
             String password;                //password
-            int id;                         //id session
+            String id;                      //id session
 
             if (head.equals(Sessions.BASIC)) {  //создаем сессию в бд
                 password = tokens[1];
-                id = sessionService.createSession(username);
+                HttpSession httpSession = request.getSession();
+                id = httpSession.getId();
+                sessionService.createSession(id, username);
             } else {                            //просто апдейтим последнее действие
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                id = Integer.parseInt(tokens[1]);
+                id = tokens[1];
                 sessionService.updateSession(id);
                 Users users = userService.getUserByLogin(username);
                 password = users.getPassword();
@@ -83,7 +86,7 @@ public class MyBasicAuthenticationFilter extends GenericFilterBean {
 
             if (authenticationIsRequired(username)) {   //контекст всегда очищается(?) и это срабатывает всегда
                 //////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                Sessions sessions = sessionService.getSession(id, username);
+                Sessions sessions = sessionService.getSession(id);
 
                 UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
                 authRequest.setDetails(authenticationDetailsSource.buildDetails(request));

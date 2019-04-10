@@ -90,18 +90,16 @@ create table operators
   phone_number varchar(12) not null
 );
 
---sessions
 create table sessions
 (
-  id serial  not null
+  -- Only integer types can be auto increment
+  id                   varchar(32)  not null
     constraint session_id_pkey
       primary key,
-  username varchar(50) not null
+  username             varchar(100) not null
     constraint login_fk
       references users
       on update cascade on delete cascade,
-  time_of_begin timestamp not null,
-  time_recent_activity timestamp not null
+  time_of_begin        timestamp    not null,
+  time_recent_activity timestamp    not null
 );
-
-

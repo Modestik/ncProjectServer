@@ -10,7 +10,7 @@ public class Sessions {
     public static final String BASIC = "Basic ";
     public static final String SESSION = "Session ";
 
-    private int id;
+    private String id;
     private String username;
     private LocalDateTime timeOfBegin;
     private LocalDateTime timeRecentActivity;
