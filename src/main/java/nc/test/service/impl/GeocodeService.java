@@ -12,11 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
-
-//todo artem
-//+-for (JsonNode node : jsonNodes) - перепиши через stream;
 
 @Slf4j
 @Service

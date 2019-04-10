@@ -1,6 +1,7 @@
 package nc.test.dao.impl;
 
 import nc.test.dao.DriverDao;
+import nc.test.dao.mapper.CustomerMapper;
 import nc.test.dao.mapper.DriverMapper;
 import nc.test.model.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class DriverDaoImpl implements DriverDao {
 
     private static final String SQL_DELETE =
             "delete from drivers where username = :username";
-
+    private final String SELECT_BY_DRIVER = "SELECT * from drivers WHERE  username = :username";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -66,5 +67,12 @@ public class DriverDaoImpl implements DriverDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", username);
         jdbcTemplate.update(SQL_DELETE, params);
+    }
+
+    @Override
+    public Driver getDriver(String name) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", name);
+        return jdbcTemplate.query(SELECT_BY_DRIVER, params, new DriverMapper()).get(0);
     }
 }

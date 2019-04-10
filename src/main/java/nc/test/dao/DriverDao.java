@@ -10,4 +10,5 @@ public interface DriverDao {
     void insert(Driver driver);
     void update(Driver driver);
     void deleteUserByLogin(String username);
+    Driver getDriver(String name);
 }

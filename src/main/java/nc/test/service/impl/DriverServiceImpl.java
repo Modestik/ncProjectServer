@@ -25,4 +25,9 @@ public class DriverServiceImpl implements DriverService {
         );
         return list;
     }
+
+    @Override
+    public Driver getUserByLogin(String username) {
+        return driverDao.getDriver(username);
+    }
 }

@@ -12,28 +12,31 @@ import java.io.IOException;
 @Service
 public class CostService {
 
+    private static final int TARIFF = 18;
+
     @Autowired
     GeocodeService geocodeService;
 
     @Autowired
     DistanceService distanceService;
 
-    public double getPrice(PriceDto priceDto) throws IOException {
-
-        String address1 = priceDto.getAddress1();
-        PointItem pointItem1 = geocodeService.getCoordinates(address1);
-        String address2 = priceDto.getAddress2();
-        PointItem pointItem2 = geocodeService.getCoordinates(address2);
-        double dis = distanceService.distanceTo(pointItem1, pointItem2);
-        double price = calculate(dis, priceDto.getTariff());
-
-        log.debug("Point: {}, {}", pointItem1.getLatitude(), pointItem1.getLongitude());
-        log.debug("Point: {}, {}", pointItem2.getLatitude(), pointItem2.getLongitude());
-        log.debug("Tariff: {}", priceDto.getTariff());
-        log.debug("Distance: {} {}", dis, "km");
-        log.debug("Price: {} {}", price, "rub");
-
-        return price;
+    public double getPrice(String pointFrom, String pointTo) throws IOException {
+        log.debug("pointFrom: {}", pointFrom);
+        log.debug("pointTo: {}", pointTo);
+        if (!pointFrom.isEmpty() || !pointTo.isEmpty()) {
+            PointItem pointItem1 = geocodeService.getCoordinates(pointFrom);
+            PointItem pointItem2 = geocodeService.getCoordinates(pointTo);
+            double dis = distanceService.distanceTo(pointItem1, pointItem2);
+            double price = calculate(dis, TARIFF);
+            log.debug("Point: {}, {}", pointItem1.getLatitude(), pointItem1.getLongitude());
+            log.debug("Point: {}, {}", pointItem2.getLatitude(), pointItem2.getLongitude());
+            log.debug("Tariff: {}", TARIFF);
+            log.debug("Distance: {} {}", dis, "km");
+            log.debug("Price: {} {}", price, "rub");
+            return price;
+        } else {
+            return 0;
+        }
     }
 
     private long calculate(Double distance, int coefficient) {
