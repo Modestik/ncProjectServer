@@ -1,5 +1,17 @@
 --users
 -- auto-generated definition
+drop table if exists users;
+create table users
+(
+  username varchar(50)  not null
+    constraint users_pk
+      primary key,
+  password varchar(100) not null,
+  role     varchar(20)  not null
+);
+
+alter table users
+  owner to postgres;
 
 drop table if exists  sessions;
 create table sessions
@@ -15,19 +27,6 @@ create table sessions
   time_of_begin        timestamp    not null,
   time_recent_activity timestamp    not null
 );
-
-drop table if exists users;
-create table users
-(
-  username varchar(50)  not null
-    constraint users_pk
-      primary key,
-  password varchar(100) not null,
-  role     varchar(20)  not null
-);
-
-alter table users
-  owner to postgres;
 
 create unique index users_username_uindex
   on users (username);
