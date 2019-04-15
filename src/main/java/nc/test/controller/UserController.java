@@ -20,7 +20,7 @@ public class UserController {
      */
     @RequestMapping(value = "/user/customers", method = RequestMethod.POST)
     public ResponseEntity createCustomers(@RequestBody Users users) {
-        HttpStatus status = userService.createEmployees(users);
+        HttpStatus status = userService.createCustomers(users);
         return ResponseEntity.status(status).build();
     }
 
