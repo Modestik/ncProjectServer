@@ -1,0 +1,29 @@
+[
+  {
+    "username": "admin",
+    "password": "admin",
+    "role": "ADMIN"
+  },
+  {
+    "idOrder": 2,
+    "pointFrom": "пл. Ленина 1, кв ",
+    "pointTo": "пл. Ленина  2, кв 2",
+    "cost": 11.01,
+    "weight": null,
+    "description": null,
+    "startTime": 1553115600000,
+    "endTime": null,
+    "status": "open",
+    "driver": null,
+    "customer": "customer"
+  },
+  {
+    "pointFrom": "воронеж, краснознаменная, 27",
+    "pointTo": "мурманск, маклакова, 37"
+  },
+  {
+    "distance": 1970.9422095892826,
+    "price": 35476,
+    "tariff": 18
+  }
+]

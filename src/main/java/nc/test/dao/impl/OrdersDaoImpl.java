@@ -21,7 +21,6 @@ public class OrdersDaoImpl implements OrdersDao {
                     "point_to = :point_to," +
                     "cost = :cost," +
                     "description = :description," +
-                    "weight = :weight," +
                     "start_time = :start_time," +
                     "end_time = :end_time," +
                     "status = :status," +
@@ -30,8 +29,8 @@ public class OrdersDaoImpl implements OrdersDao {
                     "where id_order = :id_order";
 
     private static final String SQL_CREATE =
-            "insert into orders (customer, point_from, point_to, cost, weight, start_time, end_time, status, driver, description)" +
-                    "values(:customer,:point_from,:point_to,:cost,:weight,:start_time,:end_time,:status,:driver,:description)";
+            "insert into orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)" +
+                    "values(:customer,:point_from,:point_to,:cost,:start_time,:end_time,:status,:driver,:description)";
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -51,7 +50,6 @@ public class OrdersDaoImpl implements OrdersDao {
         params.addValue("point_from", order.getPointFrom());
         params.addValue("point_to", order.getPointTo());
         params.addValue("cost", order.getCost());
-        params.addValue("weight", order.getWeight());
         params.addValue("description", order.getDescription());
         params.addValue("start_time", order.getStartTime());
         params.addValue("end_time", order.getEndTime());
@@ -62,14 +60,14 @@ public class OrdersDaoImpl implements OrdersDao {
     }
 
     public void createOrders(Orders order) {
-        MapSqlParameterSource params =getParams(order);
+        MapSqlParameterSource params = getParams(order);
         jdbcTemplate.update(SQL_CREATE, params);
     }
 
     public void updateOrders(Orders order) {
-        MapSqlParameterSource params=getParams(order);
+        MapSqlParameterSource params = getParams(order);
         params.addValue("id_order", order.getIdOrder());
-        jdbcTemplate.update(SQL_UPDATE,params);
+        jdbcTemplate.update(SQL_UPDATE, params);
     }
 
 
