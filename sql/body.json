@@ -5,16 +5,11 @@
     "role": "ADMIN"
   },
   {
-    "idOrder": 2,
-    "pointFrom": "пл. Ленина 1, кв ",
+    "pointFrom": "пл. Ленина 1, кв 3 ",
     "pointTo": "пл. Ленина  2, кв 2",
-    "cost": 11.01,
-    "weight": null,
+    "cost": 11,
     "description": null,
-    "startTime": 1553115600000,
-    "endTime": null,
-    "status": "open",
-    "driver": null,
+    "status": "OPEN",
     "customer": "customer"
   },
   {

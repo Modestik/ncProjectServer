@@ -10,7 +10,6 @@ public class Orders {
     private String pointFrom;
     private String pointTo;
     private double cost;
-    private String weight;
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

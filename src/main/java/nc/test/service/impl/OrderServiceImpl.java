@@ -53,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public HttpStatus createOrders(Orders orders) {
         try {
+            orders.setStartTime(LocalDateTime.now());
             orderDao.createOrders(orders);
             return HttpStatus.CREATED;
         } catch (Exception e) {
