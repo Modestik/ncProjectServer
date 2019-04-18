@@ -9,7 +9,7 @@ public interface OrderService {
 
     List<Orders> selectAllOrders();
 
-    List<Orders> selectOrdersByCustomer(String custname);
+    List<Orders> selectOrdersByCustomer();
 
     HttpStatus updateOrders(Orders orders);
 

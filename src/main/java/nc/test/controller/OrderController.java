@@ -14,7 +14,7 @@ public class OrderController {
     @Autowired
     private OrderServiceImpl orderService;
 
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    @RequestMapping(value = "/orders/all", method = RequestMethod.GET)
     public List<Orders> getOrders() {
         List<Orders> ordersList = orderService.selectAllOrders();
         return ordersList;
@@ -33,8 +33,8 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/orders/customer", method = RequestMethod.GET)
-    public List<Orders> getOrdersByCustomer(@RequestParam("custname") String custname) {
-        List<Orders> ordersList = orderService.selectOrdersByCustomer(custname);
+    public List<Orders> getOrdersByCustomer() {
+        List<Orders> ordersList = orderService.selectOrdersByCustomer();
         return ordersList;
     }
 }

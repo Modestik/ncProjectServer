@@ -6,6 +6,8 @@ import nc.test.model.Orders;
 import nc.test.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,8 +25,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> selectOrdersByCustomer(String custname) {
-        return orderDao.selectOrdersByCustomer(custname);
+    public List<Orders> selectOrdersByCustomer() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String customer = auth.getName();
+        List<Orders> list = orderDao.selectOrdersByCustomer(customer);
+        return list;
     }
 
     @Override

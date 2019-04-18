@@ -3,7 +3,9 @@ package nc.test.dao.impl;
 import nc.test.dao.DriverDao;
 import nc.test.dao.mapper.CustomerMapper;
 import nc.test.dao.mapper.DriverMapper;
+import nc.test.dao.mapper.OrdersMapper;
 import nc.test.model.Driver;
+import nc.test.model.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,8 +16,7 @@ import java.util.List;
 @Repository
 public class DriverDaoImpl implements DriverDao {
 
-    private final String SELECT_ALL =
-            "select * from drivers";
+    private final String SELECT_ALL = "select * from drivers";
 
     private static final String SQL_INSERT =
             "insert into drivers (username, first_name, last_name, phone_number) " +
@@ -30,7 +31,10 @@ public class DriverDaoImpl implements DriverDao {
 
     private static final String SQL_DELETE =
             "delete from drivers where username = :username";
+
     private final String SELECT_BY_DRIVER = "SELECT * from drivers WHERE  username = :username";
+
+    private final String SQL_MY_ORDERS = "select * from orders where driver = :driver";
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
@@ -74,5 +78,12 @@ public class DriverDaoImpl implements DriverDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", name);
         return jdbcTemplate.query(SELECT_BY_DRIVER, params, new DriverMapper()).get(0);
+    }
+
+    @Override
+    public List<Orders> getOrders(String driver) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("driver", driver);
+        return jdbcTemplate.query(SQL_MY_ORDERS, params, new OrdersMapper());
     }
 }
