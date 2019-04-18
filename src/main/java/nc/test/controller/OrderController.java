@@ -20,7 +20,7 @@ public class OrderController {
         return ordersList;
     }
 
-    @RequestMapping(value = "/orders", method = RequestMethod.POST)
+    @RequestMapping(value = "/orders/update", method = RequestMethod.PUT)
     public ResponseEntity updateOrders(@RequestBody Orders orders) {
         HttpStatus status = orderService.updateOrders(orders);
         return ResponseEntity.status(status).build();

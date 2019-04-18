@@ -2,6 +2,7 @@ package nc.test.model;
 
 import lombok.Data;
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class Orders {
@@ -11,8 +12,8 @@ public class Orders {
     private double cost;
     private String weight;
     private String description;
-    private Date startTime;
-    private Date endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private String status;
     private String driver;
     private String customer;

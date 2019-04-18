@@ -72,9 +72,10 @@ public class UserServiceImpl implements UserService {
     public HttpStatus createCustomers(Users users) {
         try {
             if (userDao.loginIsEmpty(users.getUsername())) {
+                users.setRole("CUSTOMER");
                 userDao.insert(users);
-                Customer cust = users.toCustomer();
-                customerDao.insert(cust);
+                Customer customer = users.toCustomer();
+                customerDao.insert(customer);
                 log.info("Customer добавлен");
                 return HttpStatus.CREATED;
             } else {

@@ -1,19 +1,21 @@
 package nc.test.service.impl;
 
-import nc.test.dao.impl.OrdersDaoImpl;
+import nc.test.dao.OrdersDao;
+import nc.test.model.OrderStatus;
 import nc.test.model.Orders;
 import nc.test.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrdersDaoImpl orderDao;
+    private OrdersDao orderDao;
 
     @Override
     public List<Orders> selectAllOrders() {
@@ -28,7 +30,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public HttpStatus updateOrders(Orders orders) {
         try {
-            orderDao.updateOrders(orders);
+            Orders orderInDB = orderDao.getOrderById(orders.getIdOrder()).get();
+            if (orders.getStatus().equals(OrderStatus.ASSIGNED)) {
+                orderInDB.setDriver(orders.getDriver());
+            }
+            if (orders.getStatus().equals(OrderStatus.RESOLVED)) {
+                orderInDB.setEndTime(LocalDateTime.now());
+            }
+            orderInDB.setStatus(orders.getStatus());
+            orderDao.updateOrder(orderInDB);
             return HttpStatus.ACCEPTED;
         } catch (Exception e) {
             return HttpStatus.BAD_REQUEST;
