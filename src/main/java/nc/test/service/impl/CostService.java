@@ -44,7 +44,7 @@ public class CostService {
         }
     }
 
-    private long calculate(Double distance) {
-        return Math.round((distance * CostService.TARIFF) * 100) / 100;
+    private double calculate(Double distance) {
+        return Math.round((distance * CostService.TARIFF) * 100.0) / 100.0;
     }
 }
