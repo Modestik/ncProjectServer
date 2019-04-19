@@ -80,7 +80,6 @@ create table orders
   point_from  varchar(50)      not null,
   point_to    varchar(50)      not null,
   cost        double precision not null,
-  weight      varchar(50) not null,
   description varchar(200),
   start_time  timestamp            not null,
   end_time    timestamp ,

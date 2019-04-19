@@ -30,6 +30,7 @@ public class OperatorDaoImpl implements OperatorDao {
                     "phone_number = :phone_number " +
                     "where username = :username";
 
+    private final String SELECT_BY_OPER = "SELECT * from operators WHERE  username = :username";
 
 
     @Autowired
@@ -66,5 +67,12 @@ public class OperatorDaoImpl implements OperatorDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("username", username);
         jdbcTemplate.update(SQL_DELETE, params);
+    }
+
+    @Override
+    public Operator getOperator(String name) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("username", name);
+        return jdbcTemplate.query(SELECT_BY_OPER, params, new OperatorMapper()).get(0);
     }
 }

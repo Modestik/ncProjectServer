@@ -13,4 +13,6 @@ public interface OperatorDao {
     void update(Operator operator);
 
     void deleteUserByLogin(String username);
+
+    Operator getOperator(String name);
 }
