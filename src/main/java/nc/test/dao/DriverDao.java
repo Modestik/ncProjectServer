@@ -10,6 +10,8 @@ public interface DriverDao {
 
     List<Driver> getAllDrivers();
 
+    List<Driver> getDrivers();
+
     void insert(Driver driver);
 
     void update(Driver driver);

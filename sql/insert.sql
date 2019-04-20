@@ -17,13 +17,13 @@ VALUES ('nikita', 'nikita', 'nikita', '89204400232');
 INSERT INTO operators (username, first_name, last_name, phone_number)
 VALUES ('operator', 'operator', 'operator', '89204400232');
 INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)
-VALUES ('customer', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-19 15:13', null, 'open', null,
+VALUES ('customer', 'пл. Ленина 1, кв 1', 'пл. Ленина  2, кв 2', 11.01, '2019-3-19 15:13', null, 'OPEN', null,
         'my number 555-111-111');
 INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)
-VALUES ('customer', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-21 15:13', null, 'open', null, null);
+VALUES ('customer', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-21 15:13', null, 'OPEN', null, null);
 
 INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)
-VALUES ('nikita', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-21 15:13', null, 'open', null, null);
+VALUES ('nikita', 'пл. Ленина 1, кв ', 'пл. Ленина  2, кв 2', 11.01, '2019-3-21 15:13', null, 'OPEN', null, null);
 
 
 INSERT INTO cars

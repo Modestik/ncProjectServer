@@ -25,13 +25,8 @@ public class DriverServiceImpl implements DriverService {
     private DriverDao driverDao;
 
     @Override
-    public List<Driver> getAllDrivers() {
-        List<Driver> list = driverDao.getAllDrivers();
-        log.info(new StringBuilder()
-                .append("Получена список водителей из ")
-                .append(list.size())
-                .append(" человек ")
-        );
+    public List<Driver> getDrivers() {
+        List<Driver> list = driverDao.getDrivers();
         return list;
     }
 
@@ -43,8 +38,8 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public List<Orders> getOrders() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        List<Orders> list = driverDao.getOrders(name);
+        String username = auth.getName();
+        List<Orders> list = driverDao.getOrders(username);
         return list;
     }
 }

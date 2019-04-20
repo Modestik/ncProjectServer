@@ -30,4 +30,9 @@ public class DriverController {
         return ordersList;
     }
 
+    @RequestMapping(value = "/driver", method = RequestMethod.GET)
+    public List<Driver> getDrivers() {
+        List<Driver> driverList = driverService.getDrivers();
+        return driverList;
+    }
 }

@@ -3,6 +3,7 @@ package nc.test.dao;
 import nc.test.model.Operator;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OperatorDao {
 
@@ -14,5 +15,5 @@ public interface OperatorDao {
 
     void deleteUserByLogin(String username);
 
-    Operator getOperator(String name);
+    Optional<Operator> getOperator(String name);
 }

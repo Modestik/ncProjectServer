@@ -13,13 +13,13 @@ public class OperatorController {
     @Autowired
     OperatorService operatorService;
 
-    @RequestMapping(value = "/operator/name", method = RequestMethod.GET)
-    public Operator getOperator(@RequestParam("name") String name) {
-        Operator operator = operatorService.getUserByLogin(name);
+    @RequestMapping(value = "/operator/aboutme", method = RequestMethod.GET)
+    public Operator getOperator() {
+        Operator operator = operatorService.getUserByLogin();
         return operator;
     }
 
-    @RequestMapping(value = "/operator/name", method = RequestMethod.POST)
+    @RequestMapping(value = "/operator/aboutme", method = RequestMethod.PUT)
     public ResponseEntity updateUser(@RequestBody Operator operator) {
         HttpStatus status = operatorService.updateUser(operator);
         return ResponseEntity.status(status).build();

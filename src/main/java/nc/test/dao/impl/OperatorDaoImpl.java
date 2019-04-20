@@ -4,11 +4,13 @@ import nc.test.dao.OperatorDao;
 import nc.test.dao.mapper.OperatorMapper;
 import nc.test.model.Operator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class OperatorDaoImpl implements OperatorDao {
@@ -32,7 +34,8 @@ public class OperatorDaoImpl implements OperatorDao {
 
     private final String SELECT_BY_OPER = "SELECT * from operators WHERE  username = :username";
 
-
+    @Autowired
+    private OperatorMapper operatorMapper;
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -70,9 +73,21 @@ public class OperatorDaoImpl implements OperatorDao {
     }
 
     @Override
-    public Operator getOperator(String name) {
+    public Optional<Operator> getOperator(String username) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("username", name);
-        return jdbcTemplate.query(SELECT_BY_OPER, params, new OperatorMapper()).get(0);
+        params.addValue("username", username);
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            SELECT_BY_OPER,
+                            params,
+                            operatorMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+
+
     }
 }

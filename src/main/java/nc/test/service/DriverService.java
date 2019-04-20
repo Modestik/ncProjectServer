@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DriverService {
 
-    List<Driver> getAllDrivers();
+    List<Driver> getDrivers();
 
     Driver getUserByLogin(String username);
 

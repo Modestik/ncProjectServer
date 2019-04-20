@@ -18,6 +18,8 @@ public class DriverDaoImpl implements DriverDao {
 
     private final String SELECT_ALL = "select * from drivers";
 
+    private final String SELECT_ALL_WITH_CAR = "select * from drivers where car_number is not null ";
+
     private static final String SQL_INSERT =
             "insert into drivers (username, first_name, last_name, phone_number) " +
                     "values (:username, :first_name , :last_name,:phone_number)";
@@ -42,6 +44,11 @@ public class DriverDaoImpl implements DriverDao {
     @Override
     public List<Driver> getAllDrivers() {
         return jdbcTemplate.query(SELECT_ALL, new DriverMapper());
+    }
+
+    @Override
+    public List<Driver> getDrivers() {
+        return jdbcTemplate.query(SELECT_ALL_WITH_CAR, new DriverMapper());
     }
 
     @Override

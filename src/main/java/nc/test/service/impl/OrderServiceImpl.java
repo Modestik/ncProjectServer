@@ -36,10 +36,12 @@ public class OrderServiceImpl implements OrderService {
     public HttpStatus updateOrders(Orders orders) {
         try {
             Orders orderInDB = orderDao.getOrderById(orders.getIdOrder()).get();
-            if (orders.getStatus().equals(OrderStatus.ASSIGNED)) {
+            OrderStatus status = OrderStatus.valueOf(orders.getStatus());
+            if (status == OrderStatus.ASSIGNED) {
                 orderInDB.setDriver(orders.getDriver());
             }
-            if (orders.getStatus().equals(OrderStatus.RESOLVED)) {
+
+            if (status == OrderStatus.CLOSED) {
                 orderInDB.setEndTime(LocalDateTime.now());
             }
             orderInDB.setStatus(orders.getStatus());

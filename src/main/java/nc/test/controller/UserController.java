@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * Контроллер для добавления сотрудника
+     * Контроллер для добавления покупателей
      */
     @RequestMapping(value = "/user/customers", method = RequestMethod.POST)
     public ResponseEntity createCustomers(@RequestBody Users users) {
