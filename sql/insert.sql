@@ -8,7 +8,7 @@ VALUES ('nikita', '$2a$10$R5hRT15dh9h/qv32MG75QuZh1TDeUkidlfvmaPHsNYD9JJoA1RlXW'
 INSERT INTO users
 VALUES ('operator', '$2a$12$5ZvE6t13B4zJFQowhoJbl.YOJAV/wyOOH.OTFRaaIn9QhFdJJ6qc6', 'OPERATOR');
 INSERT INTO users
-VALUES ('driver', '$2a$10$IHap8P0ATY3eXl7M6UFBtuHJni0m4Ws4Oq41ecBkOca8ZJUFpf7L2', 'DRIVER');
+VALUES ('driver', '$2a$10$urnyDT8dd9YR9.or2RY9VuOmEoxxd5Um.DmNNBWqk7Qwxk3p4pyaC', 'DRIVER');
 INSERT INTO customers (username, first_name, last_name, phone_number)
 VALUES ('customer', 'customer', 'customer', '89204400232');
 INSERT INTO customers (username, first_name, last_name, phone_number)
