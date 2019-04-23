@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,10 +54,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public HttpStatus createOrders(Orders orders) {
+    public HttpStatus createOrders(Orders order) {
         try {
-            orders.setStartTime(LocalDateTime.now());
-            orderDao.createOrders(orders);
+            //name customer
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            order.setCustomer(username);
+
+            order.setStatus(OrderStatus.OPEN.toString());
+            //date
+            LocalDateTime date = LocalDateTime.now();
+            order.setStartTime(date);
+            order.setEndTime(date.plusDays(1));
+
+            orderDao.createOrders(order);
             return HttpStatus.CREATED;
         } catch (Exception e) {
             return HttpStatus.BAD_REQUEST;
