@@ -1,23 +1,17 @@
 package nc.test.service.impl;
 
-import lombok.extern.log4j.Log4j;
-import nc.test.config.parent.SecurityConfig;
 import nc.test.dao.DriverDao;
-import nc.test.model.Car;
 import nc.test.model.Driver;
 import nc.test.model.Orders;
 import nc.test.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Log4j
 @Service
 public class DriverServiceImpl implements DriverService {
 
@@ -31,8 +25,26 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public Driver getUserByLogin(String username) {
-        return driverDao.getDriver(username);
+    public Driver getUserByLogin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        Driver driver = driverDao.getDriver(username);
+        return driver;
+    }
+
+    @Override
+    public HttpStatus updateUser(Driver driver) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            driver.setUsername(username);
+            Driver driverInDB = getUserByLogin();
+            driver.setCarNumber(driverInDB.getCarNumber());
+            driverDao.update(driver);
+            return HttpStatus.ACCEPTED;
+        } catch (Exception ex) {
+            return HttpStatus.BAD_REQUEST;
+        }
     }
 
     @Override
