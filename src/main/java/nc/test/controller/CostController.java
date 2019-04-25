@@ -25,7 +25,7 @@ public class CostController {
         Map result = new HashMap<>();
         try {
             result = costService.getPrice(priceDto.getPointFrom(), priceDto.getPointTo());
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
