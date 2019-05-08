@@ -1,5 +1,7 @@
 package nc.test.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import jdk.nashorn.internal.ir.ObjectNode;
 import nc.test.model.Users;
 import nc.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,8 @@ public class UserController {
      * Контроллер для удаления сотрудников
      */
     @RequestMapping(value = "/user/employees/", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@RequestBody String username) {
+    public ResponseEntity delete(@RequestBody String username/*JsonNode node*/) {
+//        String username = node.get("username").asText();
         HttpStatus status = userService.deleteUserByLogin(username);
         return ResponseEntity.status(status).build();
     }

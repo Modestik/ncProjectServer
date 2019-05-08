@@ -18,6 +18,8 @@ import java.util.stream.Stream;
 @Service
 public class GeocodeService {
 
+    //https://geocode-maps.yandex.ru/1.x/?apikey=07aaccb9-d30b-458f-8c06-49710fbacfcd&format=json&geocode=Воронеж,Танеева,4&results=1
+
     private final static String HTTPS = "https://geocode-maps.yandex.ru/1.x/?apikey=";
     private final static String APIKEY = "07aaccb9-d30b-458f-8c06-49710fbacfcd";
     private final static String FORMAT = "&format=json&geocode=";
