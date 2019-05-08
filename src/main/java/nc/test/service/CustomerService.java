@@ -7,5 +7,5 @@ public interface CustomerService {
 
     HttpStatus updateUser(Customer customer);
 
-    Customer getUserByLogin(String username);
+    Customer getUserByLogin();
 }
