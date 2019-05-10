@@ -44,7 +44,7 @@ public class UserController {
     /**
      * Контроллер для update
      */
-    @RequestMapping(value = "/user/employees/", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/employees/update", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody Users[] users) {
         HttpStatus status = userService.updateEmployees(users);
         return ResponseEntity.status(status).build();
@@ -54,7 +54,7 @@ public class UserController {
     /**
      * Контроллер для удаления сотрудников
      */
-    @RequestMapping(value = "/user/employees/", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user/employees/delete", method = RequestMethod.DELETE)
     public ResponseEntity delete(@RequestBody String username/*JsonNode node*/) {
 //        String username = node.get("username").asText();
         HttpStatus status = userService.deleteUserByLogin(username);
