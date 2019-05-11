@@ -20,7 +20,7 @@ public class CustomerController {
         return customer;
     }
 
-    @RequestMapping(value = "/customer/aboutme", method = RequestMethod.POST)
+    @RequestMapping(value = "/customer/aboutme", method = RequestMethod.PUT)
     public ResponseEntity updateUser(@RequestBody Customer customer) {
         HttpStatus status = customerService.updateUser(customer);
         return ResponseEntity.status(status).build();

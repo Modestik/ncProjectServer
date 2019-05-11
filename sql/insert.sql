@@ -23,7 +23,7 @@ INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, 
 VALUES ('customer', 'Russia, Voronezh, Dimitrova, 10', 'Russia, Voronezh, Perevertkina, 42', 11.01, '2019-3-21 15:13', null, 'OPEN', null, null);
 
 INSERT INTO orders (customer, point_from, point_to, cost, start_time, end_time, status, driver, description)
-VALUES ('nikita', 'Russia, Moscow, Tverskaya, 8', 'Russia, Moscow, Lomonosova, 1', 11.01, '2019-3-21 15:13', null, 'OPEN', null, null);
+VALUES ('nikita', 'Russia, Voronezh, Dimitrova, 10', 'Russia, Voronezh, Krasnoarmeysky, 50', 11.01, '2019-3-21 15:13', null, 'OPEN', null, null);
 
 
 INSERT INTO cars

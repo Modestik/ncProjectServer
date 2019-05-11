@@ -67,7 +67,7 @@ create table customers
       primary key,
   first_name varchar(50),
   last_name varchar(50),
-  phone_number varchar(12)
+  phone_number varchar(20)
 );
 
 --orders

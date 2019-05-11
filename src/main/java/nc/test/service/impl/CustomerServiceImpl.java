@@ -19,6 +19,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     public HttpStatus updateUser(Customer customer) {
         try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            customer.setUsername(username);
             customerDao.update(customer);
             log.info("Информация для customer обновлена");
             return HttpStatus.OK;

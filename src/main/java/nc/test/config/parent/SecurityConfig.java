@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                /*.antMatchers("/auth/*").hasAnyRole("CUSTOMER", "ADMIN", "DRIVER", "OPERATOR")
+                .antMatchers("/auth/*").hasAnyRole("CUSTOMER", "ADMIN", "DRIVER", "OPERATOR")
                 .antMatchers("/orders/create").hasAnyRole("CUSTOMER")
                 .antMatchers("/orders/customer").hasAnyRole("CUSTOMER")
                 .antMatchers("/orders/all").hasAnyRole("OPERATOR")
@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/operator/*").hasAnyRole("OPERATOR")
                 .antMatchers("/car/*").hasAnyRole("ADMIN")
                 .antMatchers("/user/*").hasAnyRole("ADMIN")
-               */ .antMatchers("/price").permitAll()
+                .antMatchers("/price").permitAll()
                 .anyRequest().permitAll()
                 //.and()
                 //.httpBasic()
@@ -81,10 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                 .and()
                 .logout()
-                .logoutSuccessHandler(logoutSuccessHandler())
                 .logoutUrl("/auth/logout")
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(logoutSuccessHandler());
 
         http.addFilterBefore(
                 new MyBasicAuthenticationFilter(authenticationManager(),

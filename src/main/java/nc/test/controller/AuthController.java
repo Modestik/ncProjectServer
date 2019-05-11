@@ -27,9 +27,8 @@ public class AuthController {
     /**
      * Logout
      */
-    @RequestMapping(value = "/auth/logout", method = RequestMethod.GET)
-    public String clear() {
-        SecurityContextHolder.clearContext();
-        return "logout";
-    }
+    /*@RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ResponseEntity clear() {
+        return new ResponseEntity(HttpStatus.OK);
+    }*/
 }
